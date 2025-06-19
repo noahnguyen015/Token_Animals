@@ -1,0 +1,28 @@
+.option{
+    width: 150px;
+    height: 100px;
+}
+
+.slotrow{
+    width: 750px;
+    overflow:hidden;
+}
+
+
+/*start the animation when the entire slot is visible*/
+/*end it when the slots have moved about 50% through the entire slot*/
+@keyframes spinLoop{
+    0% {transform: translateX(0); }
+    100% {transform: translateX(-33.33%); }
+}
+
+/*
+- run spinLoop keyframes
+- Runs over 1s per cycle (happens every 1s)
+- does it with linear timing (no acceleration & slowing down)
+- infinite = repeat forever while the class is active
+
+*/
+.spinning{
+    animation: spinLoop 1s linear infinite;
+}
