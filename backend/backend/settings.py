@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api'
+    'api',
     'rest_framework',
     'corsheaders',
 ]
@@ -88,6 +88,8 @@ REST_FRAMEWORK = {
 }
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+AUTH_USER_MODEL = 'api.CustomUser'
 
 
 # Database

@@ -16,16 +16,15 @@ function Register() {
         e.preventDefault();
 
         try {
-            const res = await fetch("http://localhost:8000/api/register/", {
-                method : "POST",
-                headers: {"Content Type": "application/json"},
+            const res = await fetch('http://localhost:8000/api/register/', {
+                method : 'POST',
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             });
 
             const data = await res.json();
 
             if(res.ok) {
-                
                 setMessage(data.message);
                 navigate("/login");
             }
@@ -39,15 +38,15 @@ function Register() {
 
     return(
     <>
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input name="username" placeholder="Username" onChange={handleChange} required></input>
-                <input name="password" placeholder="Password" onChange={handleChange} required></input>
-                <button type="submit">Register</button>
-            </form>
-            <p>Login <Link to ="/login">Login</Link></p>
-            <p>{message}</p>
-        </div>
+        <h2>REGISTRATION PAGE</h2>
+        <form onSubmit={handleSubmit}>
+            <input name="username" placeholder="Username" onChange={handleChange} required></input><br/>
+            <input name="password" placeholder="Password" onChange={handleChange} required></input><br/>
+            <button type="submit">Register</button>
+        </form>
+
+        <p><Link to ="/login">Login</Link></p>
+        <p>{message}</p>
     </>
     )
 }

@@ -24,7 +24,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     
-    username = models.Charfield(max_length = 50, unique = True)
+    username = models.CharField(max_length = 50, unique = True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)

@@ -28,9 +28,14 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
 
+    permission_classes = [AllowAny]
+
     def post(self, request):
 
         serializer = LoginSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            print(serializer.errors)
 
         if serializer.is_valid():
             #runs validate() in the login serializer, and if good sends back user
