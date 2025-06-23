@@ -21,6 +21,7 @@ export function Carousel({options}){
             const randomIndex = Math.floor(Math.random() * totalOptions);
             setTargetIdx(randomIndex);
 
+            //add the class to the DOM element for slot 
             slot.classList.add('spinning');
             slot.style.transition = 'none';
             slot.style.transform = `translateX(0)`;
@@ -45,10 +46,10 @@ export function Carousel({options}){
             void slot.offsetWidth;
             
             //use the final stopping position, do a final position animation
-            slot.style.transition = 'transform 2.5s ease-out';
+            slot.style.transition = 'transform 1.75s ease-out';
             slot.style.transform = `translateX(-${offset}px)`;
 
-            setSpinning(false);
+            setTimeout(() => setSpinning(false), 2000);
     }
 
 
@@ -72,7 +73,7 @@ export function Carousel({options}){
                 </div>
             </div>
         </div>
-        <button onClick={spin}>Spin The Slot Machine!</button>
+        <button onClick={spin} disabled={isSpinning}>Spin The Slot Machine!</button>
     </>
     )
 }
