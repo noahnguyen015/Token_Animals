@@ -8,12 +8,19 @@
     overflow:hidden;
 }
 
+#divider{
+    position: absolute;
+    border: solid;
+    border-width: 1px;
+    height: 100px;
+}
+
 
 /*start the animation when the entire slot is visible*/
-/*end it when the slots have moved about 50% through the entire slot*/
+/*end it when the slots have moved about 25% through the entire slot*/
 @keyframes spinLoop{
     0% {transform: translateX(0); }
-    100% {transform: translateX(-33.33%); }
+    100% {transform: translateX(-25%); }
 }
 
 /*

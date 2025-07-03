@@ -9,6 +9,7 @@ export function Carousel({options}){
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
     const width = 150;
+    let stopTime = `1.75s`;
 
     const spin = () => { 
 
@@ -18,7 +19,11 @@ export function Carousel({options}){
             const slot = slotRef.current;
             const totalOptions = options.length;
             //land on a random number :) random will output nums between 0-1
-            const randomIndex = Math.floor(Math.random() * totalOptions);
+            let randomIndex = Math.floor(Math.random() * totalOptions);
+
+            if(randomIndex == 5)
+                randomIndex -= 1;
+            
             setTargetIdx(randomIndex);
 
             //add the class to the DOM element for slot 
@@ -34,9 +39,23 @@ export function Carousel({options}){
 
             const slot = slotRef.current;
             const totalOptions = options.length;
-            const offset = (totalOptions + index -2) * width;
-
+            //const offset = (totalOptions + index -2) * width;
+            let offset = (totalOptions * width);
             console.log(options[index]);
+
+            if(index === 0)
+                offset += 375 + Math.floor(Math.random() * 130); 
+            else if(index === 1)
+                offset += 525 + Math.floor(Math.random() * 130); 
+            else if(index === 2)
+                offset += Math.floor(Math.random() * 60);  
+                //offset += 675 + Math.floor(Math.random() * 145);
+            else if(index === 3)
+                offset += 75 + Math.floor(Math.random() * 130);  
+                //offset += 825 + Math.floor(Math.random() * 145);
+            else if(index === 4)
+                offset += 225 + Math.floor(Math.random() * 130)
+                //offset += 975 + Math.floor(Math.random() * 145); 
 
             //reset the layout with offsetWidth and starts cleanly to the next transition
             //can use any property that forces layout calc layout like offsetheight. clientTop scrollLeft
@@ -44,12 +63,17 @@ export function Carousel({options}){
             //we discard it after, we just want to trigger the effect
             slot.classList.remove('spinning');
             void slot.offsetWidth;
-            
+
+            if(offset > 1075)
+                stopTime = `3.5s`;
+            else
+                stopTime = `1.75s`;
+
             //use the final stopping position, do a final position animation
-            slot.style.transition = 'transform 1.75s ease-out';
+            slot.style.transition = `transform ${stopTime} ease-out`;
             slot.style.transform = `translateX(-${offset}px)`;
 
-            setTimeout(() => setSpinning(false), 2000);
+            setTimeout(() => setSpinning(false), 1000);
     }
 
 
@@ -65,9 +89,10 @@ export function Carousel({options}){
     return (
     <>
         <div className="d-flex align-items-center justify-content-center">
+            <div className ="d-flex align-items-center" id="divider"></div>
             <div className="d-flex flex-row slotrow justify-content-start">
                 <div className="d-flex" ref={slotRef}>
-                    {[...options, ...options, ...options].map((option, j) => (
+                    {[...options, ...options, ...options, ...options].map((option, j) => (
                         <div className="p-3 border option" key={j}>{option}</div>
                     ))}
                 </div>
