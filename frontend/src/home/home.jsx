@@ -4,7 +4,9 @@ import {Carousel} from './carousel'
 function Home() {
   const [count, setCount] = useState(0);
 
-  const options = ["test1", "test2", "test3", "test4", "test5"];
+  const options = ["blue", "blue", "purple", "pink", "red"];
+
+  const [isChanging, setChange] = useState([]);
 
   return (
     <>
