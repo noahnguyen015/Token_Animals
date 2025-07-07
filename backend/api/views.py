@@ -48,7 +48,7 @@ class LoginView(APIView):
             return Response({
                 'refresh-token': str(refresh),
                 'access-token': str(refresh.access_token),
-                'username': user.username
+                'username': user.username,
             })
         else:
             #if error happens, then show the inputted data and the error that occurred

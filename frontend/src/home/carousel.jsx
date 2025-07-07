@@ -39,8 +39,6 @@ function renderSlotBoxes(ref, Arr1, Arr2, Arr3, Arr4){
         return;
     }
     else {
-    
-    console.log("it goes in here");
     //take child DOMs in the element and turn them into array
     //Array.from --> changes iterable/array-like obj to an array
     Array.from(ref.current.children).forEach((slotbox, i) =>
@@ -49,8 +47,6 @@ function renderSlotBoxes(ref, Arr1, Arr2, Arr3, Arr4){
             if(slotbox.textContent !== option && slotbox.style.backgroundColor){
                 slotbox.textContent = option;
                 slotbox.style.backgroundColor = option;
-            }else{
-                console.log("THEY ARE THE SAME");
             }
         })
     }
@@ -75,7 +71,7 @@ export function Carousel({options}){
         Arr2.current = Shuffle(Arr2.current);
         setSpinning(true);
 
-      //  slots.forEach((ref) => {
+            //  slots.forEach((ref) => {
             const slot = slotRef.current;
             const totalOptions = options.length;
             //land on a random number :) random will output nums between 0-1(not including 1 excluded)
@@ -109,8 +105,7 @@ export function Carousel({options}){
             {
              clearInterval(shuffleOptions);
              stopSpinning(TargetIdx);
-            }, 4000);
-
+            }, 3000);
       //  });
     }   
 

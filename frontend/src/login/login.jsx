@@ -26,10 +26,13 @@ function Login () {
             const data = await res.json();
 
             if(res.ok){
-                console.log(data);
+                //local storage: feature of Web Storage API to store key value pairs in the browser 
+                //stores only strings
                 localStorage.setItem('access', data["access-token"]);
                 localStorage.setItem('refresh', data["refresh-token"]);
-                setMessage('Logged in as ' + data.username);
+                localStorage.setItem('username', data["username"]);
+                setMessage('Logged in as ' + data["username"]);
+                navigate("/")
             }else{
                 setMessage('Login failed: ' + JSON.stringify(data));
             }
