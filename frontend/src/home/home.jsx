@@ -6,6 +6,12 @@ import './home.css'
 
 function Home() {
 
+   // const whites = [common_bear];
+   // const blues = [tie_bear, glasses_bear];
+   // const greens = [detective_bear, delinquent_bear];
+   // const purples = [princess_bear, sleepy_bear];
+   // const blacks = [boba_bear];
+
   const options = ["white", "green", "blue", "purple", "black"];
 
   let isLoggedIn = false;

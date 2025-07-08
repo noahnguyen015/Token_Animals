@@ -10,42 +10,33 @@ import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
-
-function Shuffle(arr){
-
-    const shallowCopy = [...arr];
-
-    //random shuffle using Fisher-Yates
-    //back to front (before 0), grab a random value from 0-i each time (takes random index)
-    //each time becomes 1 less inclusive
-    //all random, and the values shuffled aren't reswapped
-    for(let i = arr.length-1; i > 0; i--){
-
-        const j = Math.floor(Math.random() * (i+1));
-
-        //destructuring to swap values in the array
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-
-    return shallowCopy;
-}
-
 function ChooseBear({option}){
+
+    const whites = [common_bear];
+    const blues = [tie_bear, glasses_bear];
+    const greens = [detective_bear, delinquent_bear];
+    const purples = [princess_bear, sleepy_bear];
+    const blacks = [boba_bear];
 
     let choice = "";
 
-    if(option === "white")
+    if(option === "white"){
         choice = common_bear;
-    else if(option === "blue")
+    }
+    else if(option === "blue"){
         choice = tie_bear;
-    else if(option === "green")
+    }
+    else if(option === "green"){
         choice = detective_bear;
-    else if(option === "purple")
+    }
+    else if(option === "purple"){ 
         choice = sleepy_bear;
-    else if(option === "black")
+    }
+    else if(option === "black"){
         choice = boba_bear;
+    }
     else
-        choice=common_bear;
+        choice = common_bear;
     return(
     <>
         <img className="img-fluid" src={choice}/>
@@ -54,7 +45,25 @@ function ChooseBear({option}){
 }
 
 export function Carousel({options}){
+    
+    function Shuffle(arr){
 
+        const shallowCopy = [...arr];
+
+        //random shuffle using Fisher-Yates
+        //back to front (before 0), grab a random value from 0-i each time (takes random index)
+        //each time becomes 1 less inclusive
+        //all random, and the values shuffled aren't reswapped
+        for(let i = arr.length-1; i > 0; i--){
+
+            const j = Math.floor(Math.random() * (i+1));
+
+            //destructuring to swap values in the array
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        return shallowCopy;
+    }
 
     let isLoggedIn = false;
 
@@ -72,16 +81,14 @@ export function Carousel({options}){
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
 
-    const [Arr1, setArr1] = useState([...options]);
-    const [Arr2, setArr2] = useState([...options]);
-    const [Arr3, setArr3] = useState([...options]);
-    const [Arr4, setArr4] = useState([...options]);
+    const [Arr1, setArr1] = useState(Shuffle([...options]));
+    const [Arr2, setArr2] = useState(Shuffle([...options]));
+    const [Arr3, setArr3] = useState(Shuffle([...options]));
+    const [Arr4, setArr4] = useState(Shuffle([...options]));
     const width = 170;
     let stopTime = `1.75s`;
 
     const spin = () => { 
-
-            Shuffle(Arr2);
 
             setSpinning(true);
 
@@ -98,7 +105,6 @@ export function Carousel({options}){
 
             //add the class to the DOM element for slot 
 
-
             //check and use setInterval
             //repeat for 1 second intervals until 4 seconds then exit 
 
@@ -106,16 +112,18 @@ export function Carousel({options}){
             slot.style.transition = 'none';
             slot.style.transform = `translateX(0)`;
 
+            /*
             const shuffleOptions = setInterval(() => 
             {
                 setArr1([...Arr2]);
                 Shuffle(Arr2);
                 Shuffle(Arr3);
             }, 1000);
+            */
 
             setTimeout(() =>
             {
-             clearInterval(shuffleOptions);
+             //clearInterval(shuffleOptions);
              stopSpinning(TargetIdx);
             }, 3000);
       //  });
@@ -124,6 +132,7 @@ export function Carousel({options}){
     const stopSpinning = (index) => {
 
         const slot = slotRef.current;
+
         const totalOptions = options.length;
         //const offset = (totalOptions + index -2) * width;
         let offset = (totalOptions * width);
@@ -150,16 +159,21 @@ export function Carousel({options}){
         slot.classList.remove('spinning');
         void slot.offsetWidth;
 
-        if(offset >= 1000)
-            stopTime = `3.5s`;
-            //stopTime = `10.5s`;
-        else
-            stopTime = `1.75s`;
-            //stopTime = `5.75s`;
 
-        //use the final stopping position, do a final position animation
-        slot.style.transition = `transform ${stopTime} ease-out`;
-        slot.style.transform = `translateX(-${offset}px)`;
+        //inital position to save the amount of slots you went over 
+        slot.style.transition = 'none';
+        slot.style.transform = `translateX(-${(850*3)}px)`;
+        //clear the transormation
+        void slot.offsetWidth;
+
+
+
+        requestAnimationFrame(() => {
+            setTimeout( () => {
+            slot.style.transition = 'transform 3.75s ease-out';
+            slot.style.transform = `translateX(-${850*3+offset}px)`;
+            }, 0);
+        });
 
         setTimeout(() => setSpinning(false), 1000);
     }
@@ -175,7 +189,7 @@ export function Carousel({options}){
             <div className="d-flex flex-row slotrow justify-content-start">
                 <div className="d-flex" ref={slotRef}>
                     <div className="d-flex" ref={slotboxRef}>
-                        {[...Arr1, ...Arr2, ...Arr3, ...Arr4].map((option, j) => (
+                        {[...Arr1, ...Arr2, ...Arr3, ...Arr4, ...Arr1, ...Arr1, ...Arr1, ...Arr1, ...Arr1, ...Arr1].map((option, j) => (
                             <div className="option" key={j} style={{backgroundColor: `${option}`}}><ChooseBear option={option}/></div>
                         ))}   
                     </div>    

@@ -26,7 +26,7 @@
 /*end it when the slots have moved about 25% through the entire slot*/
 @keyframes spinLoop{
     0% {transform: translateX(0); }
-    100% {transform: translateX(-25%); }
+    100% {transform: translateX(-30%); }
 }
 
 /*
@@ -37,5 +37,5 @@
 
 */
 .spinning{
-    animation: spinLoop 1s linear infinite;
+    animation: spinLoop 3s linear infinite;
 }
