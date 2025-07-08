@@ -1,5 +1,14 @@
 import {useEffect, useRef, useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom' 
 import './carousel.css'
+import common_bear from '../assets/bear_bank/common_bear.JPG'
+import tie_bear from '../assets/bear_bank/tie_bear.JPG'
+import glasses_bear from '../assets/bear_bank/glasses_bear.JPG'
+import detective_bear from '../assets/bear_bank/detective_bear.JPG'
+import delinquent_bear from '../assets/bear_bank/delinquent_bear.JPG'
+import princess_bear from '../assets/bear_bank/princess_bear.JPG'
+import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
+import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
 
 function Shuffle(arr){
@@ -10,66 +19,71 @@ function Shuffle(arr){
     //back to front (before 0), grab a random value from 0-i each time (takes random index)
     //each time becomes 1 less inclusive
     //all random, and the values shuffled aren't reswapped
-    for(let i = shallowCopy.length-1; i > 0; i--){
+    for(let i = arr.length-1; i > 0; i--){
 
         const j = Math.floor(Math.random() * (i+1));
 
         //destructuring to swap values in the array
-        [shallowCopy[i], shallowCopy[j]] = [shallowCopy[j], shallowCopy[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 
     return shallowCopy;
 }
 
-function renderSlotBoxes(ref, Arr1, Arr2, Arr3, Arr4){
+function ChooseBear({option}){
 
-    const slotrow = [...Arr1, ...Arr2, ...Arr3, ...Arr4];
+    let choice = "";
 
-    //check existing divs and the array length
-    if(ref.current.children.length !== slotrow.length) {
-        ref.current.innerHTML = "";
-        //for each of the elements in the slotrow
-        slotrow.forEach((option) => {
-            const slotbox = document.createElement("div");
-            slotbox.textContent = option;
-            slotbox.className = "p-3 border option";
-            slotbox.style.backgroundColor = option;
-            ref.current.appendChild(slotbox);
-        });
-        return;
-    }
-    else {
-    //take child DOMs in the element and turn them into array
-    //Array.from --> changes iterable/array-like obj to an array
-    Array.from(ref.current.children).forEach((slotbox, i) =>
-        {
-            const option = slotrow[i];
-            if(slotbox.textContent !== option && slotbox.style.backgroundColor){
-                slotbox.textContent = option;
-                slotbox.style.backgroundColor = option;
-            }
-        })
-    }
+    if(option === "white")
+        choice = common_bear;
+    else if(option === "blue")
+        choice = tie_bear;
+    else if(option === "green")
+        choice = detective_bear;
+    else if(option === "purple")
+        choice = sleepy_bear;
+    else if(option === "black")
+        choice = boba_bear;
+    else
+        choice=common_bear;
+    return(
+    <>
+        <img className="img-fluid" src={choice}/>
+    </>
+    )
 }
 
 export function Carousel({options}){
+
+
+    let isLoggedIn = false;
+
+    const accesstoken = localStorage.getItem("access");
+    const refreshtoken = localStorage.getItem("refresh");
+    const username = localStorage.getItem("username");
+
+    if(accesstoken && refreshtoken){
+        isLoggedIn = true;
+    }
 
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
     //const slots = [useRef(null), useRef(null), useRef(null)];
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
-    const Arr1 = useRef([...options]);
-    const Arr2 = useRef([...options]);
-    const Arr3 = useRef([...options]);
-    const Arr4 = useRef([...options]);
-    const width = 150;
+
+    const [Arr1, setArr1] = useState([...options]);
+    const [Arr2, setArr2] = useState([...options]);
+    const [Arr3, setArr3] = useState([...options]);
+    const [Arr4, setArr4] = useState([...options]);
+    const width = 170;
     let stopTime = `1.75s`;
 
     const spin = () => { 
 
-        Arr2.current = Shuffle(Arr2.current);
-        setSpinning(true);
+            Shuffle(Arr2);
+
+            setSpinning(true);
 
             //  slots.forEach((ref) => {
             const slot = slotRef.current;
@@ -94,11 +108,9 @@ export function Carousel({options}){
 
             const shuffleOptions = setInterval(() => 
             {
-                Arr1.current = [...Arr2.current];
-                Arr2.current = Shuffle([...Arr2.current]);
-                Arr3.current = Shuffle([...Arr3.current]);
-
-                renderSlotBoxes(slotboxRef, Arr1.current, Arr2.current, Arr3.current, Arr4.current);
+                setArr1([...Arr2]);
+                Shuffle(Arr2);
+                Shuffle(Arr3);
             }, 1000);
 
             setTimeout(() =>
@@ -115,21 +127,20 @@ export function Carousel({options}){
         const totalOptions = options.length;
         //const offset = (totalOptions + index -2) * width;
         let offset = (totalOptions * width);
-        console.log(Arr2.current[index]);
-        console.log(Arr3.current[index]);
+        console.log(Arr3[index]);
 
         if(index === 0)
-            offset += 375 + Math.floor(Math.random() * 120) + 10; 
+            offset += (width*2+85) + Math.floor(Math.random() * 140) + 10; 
         else if(index === 1)
-            offset += 525 + Math.floor(Math.random() * 120) + 10; 
+            offset += (width*3+85) + Math.floor(Math.random() * 140) + 10; 
         else if(index === 2)
-            offset += Math.floor(Math.random() * 50) + 10;  
-            //offset += 675 + Math.floor(Math.random() * 145);
+            //offset += Math.floor(Math.random() * 50) + 10;  
+            offset += (width*4+85) + Math.floor(Math.random() * 140) + 10;
         else if(index === 3)
-            offset += 75 + Math.floor(Math.random() * 120) + 10;  
+            offset += (width*5+85) + Math.floor(Math.random() * 140) + 10;  
             //offset += 825 + Math.floor(Math.random() * 145);
         else if(index === 4)
-            offset += 225 + Math.floor(Math.random() * 120) + 10;
+            offset += (width*6+85) + Math.floor(Math.random() * 120) + 10;
             //offset += 975 + Math.floor(Math.random() * 145); 
 
         //reset the layout with offsetWidth and starts cleanly to the next transition
@@ -153,38 +164,25 @@ export function Carousel({options}){
         setTimeout(() => setSpinning(false), 1000);
     }
 
-    useEffect(() => 
-        {
-            renderSlotBoxes(slotboxRef, Arr1.current, Arr2.current, Arr3.current, Arr4.current);
-        }
-    );
-
-
     //duplicate options in the array because when animation loops to the start, the transition is smooth
     //you can see the animaton reset without it
     //the slots/objects will match up at the end of the loop EX: (1-6 = 50%, then back to 1-6)
 
-    /*
-    {slots.map((slot, i) => (
-                ))}
-    {[...Arr1, ...Arr2, ...Arr3, ...Arr4].map((option, j) => (
-        <div className="p-3 border option" key={j} style={{backgroundColor: `${option}`}}>{option}</div>
-    ))}                
-    
-    */
-
     return (
     <>
-        <div className="d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center flex-column justify-content-start h-100 pt-5">
             <div id="divider"></div>
             <div className="d-flex flex-row slotrow justify-content-start">
                 <div className="d-flex" ref={slotRef}>
                     <div className="d-flex" ref={slotboxRef}>
+                        {[...Arr1, ...Arr2, ...Arr3, ...Arr4].map((option, j) => (
+                            <div className="option" key={j} style={{backgroundColor: `${option}`}}><ChooseBear option={option}/></div>
+                        ))}   
                     </div>    
                 </div>
             </div>
+            {isLoggedIn? <button className="px-5 my-3" onClick={spin} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
         </div>
-        <button onClick={spin} disabled={isSpinning}>Spin The Slot Machine!</button>
     </>
     )
 }

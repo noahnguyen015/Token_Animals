@@ -6,11 +6,7 @@ import './home.css'
 
 function Home() {
 
-  const [count, setCount] = useState(0);
-
-  const options = ["blue", "blue", "purple", "pink", "red"];
-
-  const [isChanging, setChange] = useState([]);
+  const options = ["white", "green", "blue", "purple", "black"];
 
   let isLoggedIn = false;
 
@@ -27,10 +23,6 @@ function Home() {
     <>
         <h3>GAMBLING WEBSITE WITHOUT A NAME</h3>
         <NavBar/>
-        <div>
-          {isLoggedIn? `Welcome ${username}!` : "Please Login"}
-        </div>
-        <p>Hello</p>
         <Carousel options={options}/>
     </>
   )

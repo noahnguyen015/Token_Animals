@@ -1,20 +1,24 @@
 .option{
-    width: 150px;
-    height: 125px;
+    width: 170px;
+    height: 180px;
+    border: solid;
+    border-color: black;
+    border-width: 1px;
 }
 
 .slotrow{
-    width: 750px;
+    width: 850px;
     overflow: hidden;
 }
 
 #divider{
     position: absolute;
     border: solid;
-    border-color: white;
-    border-width: 1px;
-    height: 125px;
+    border-color: black;
+    border-width: 2px;
+    height: 180px;
     z-index: 10;
+    margin-bottom: 45px;
 }
 
 

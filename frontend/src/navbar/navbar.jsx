@@ -2,6 +2,14 @@ import { Link, useNavigate } from 'react-router-dom'
         
 export function NavBar() {
 
+    let isLoggedIn = false;
+
+    const accesstoken = localStorage.getItem("access");
+    const refreshtoken = localStorage.getItem("refresh");
+
+    if(accesstoken && refreshtoken)
+        isLoggedIn = true;
+
 const navigate = useNavigate();
 
     const Logout = () => {
@@ -20,8 +28,8 @@ const navigate = useNavigate();
             <div className="d-flex me-5">
             <button className="p-3 px-4">About</button>
             <button className="p-3 px-4">Inventory</button>
-            <button>Profile</button>
-            <button onClick={Logout}>Logout</button>
+            {isLoggedIn? <button className="p-3 px-4">Profile</button>: <></>}
+            {isLoggedIn? <button className="p-3 px-4" onClick={Logout}>Logout</button>: <Link to="/login"><button className="p-3 px-4">Login</button></Link>}
             </div>
         </nav>
     </div>
