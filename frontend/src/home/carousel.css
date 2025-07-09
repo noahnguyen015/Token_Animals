@@ -37,5 +37,5 @@
 
 */
 .spinning{
-    animation: spinLoop 3s linear infinite;
+    animation: spinLoop 2.5s linear;
 }
