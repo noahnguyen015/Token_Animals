@@ -59,8 +59,8 @@ export function Carousel({options}){
                 const choice_bear = Math.floor(Math.random() * blacks.length);
                 tempArr[i] = blacks[choice_bear];
             }
-            //63. 1/64%
-            else if (choice === 63){
+            //63. 2/64%
+            else if (choice <= 63){
                 const blacks = bears["blacks"];
                 const choice_bear = Math.floor(Math.random() * blacks.length);
                 tempArr[i] = blacks[choice_bear];
@@ -87,13 +87,21 @@ export function Carousel({options}){
     const [TargetIdx, setTargetIdx] = useState(0);
     const [Finished, setFinished] = useState(false);
     const [Result, setResult] = useState("");
-    const [SlotSheet, setSlotSheet] = useState(Randomize());
+    const [SlotSheet, setSlotSheet] = useState([common_bear,common_bear,common_bear,common_bear,common_bear]);
+    const [numSpins, setnumSpins] = useState(0);
     const width = 170;
+    let newArr = [];
 
-    const spin = () => { 
+    ///FIX find a way to randomize the array on every spin and grab the correct bear
+
+    const spin = () => {
+
+        const randomized = Randomize();
+        setSlotSheet(randomized);
+        console.log(randomized);
 
         setFinished(false);
-        setSlotSheet(Randomize());
+        //set it for the next render
         setSpinning(true);
 
         const slot = slotRef.current;
@@ -112,39 +120,39 @@ export function Carousel({options}){
         slot.style.transform = `translateX(0px)`;
 
         //makes sure the animation is detected on finish, fixes timing over setTimeout
-        slot.addEventListener('animationend', () => stopSpinning(TargetIdx));
+        slot.addEventListener('animationend', () => stopSpinning(randomIndex, randomized));
     }   
 
-    const stopSpinning = (index) => {
+    const stopSpinning = (index, randomized) => {
 
         const slot = slotRef.current;
 
         const totalOptions = options.length;
         let offset = (totalOptions * width);
-        console.log(index);
 
-        const realIndex = 22+index;
-
-        console.log(SlotSheet[22+index]);
-
+        const realIndex = 25+index;
+        console.log(realIndex);
 
         //distance based on chosen index/box (offset to make the indicator point to it)
         if(index === 0)
-            offset += (width*2+85) //+ Math.floor(Math.random() * 140) + 10; 
+            offset += (width*2+85) + Math.floor(Math.random() * 140) + 10; 
         else if(index === 1)
-            offset += (width*3+85) //+ Math.floor(Math.random() * 140) + 10; 
+            offset += (width*3+85) + Math.floor(Math.random() * 140) + 10; 
         else if(index === 2)
-            offset += (width*4+85) //+ Math.floor(Math.random() * 140) + 10;
+            offset += (width*4+85) + Math.floor(Math.random() * 140) + 10;
         else if(index === 3)
-            offset += (width*5+85) //+ Math.floor(Math.random() * 140) + 10;  
+            offset += (width*5+85) + Math.floor(Math.random() * 140) + 10;  
         else if(index === 4)
-            offset += (width*6+85) //+ Math.floor(Math.random() * 120) + 10;
+            offset += (width*6+85) + Math.floor(Math.random() * 140) + 10;
+        
 
         //reset the layout with offsetWidth and starts cleanly to the next transition
         //can use any property that forces layout calc layout like offsetheight. clientTop scrollLeft
         //known as reflow
         //we discard it after, we just want to trigger the effect
         slot.classList.remove('spinning');
+        slot.style.transition = 'none';
+        slot.style.transform = `translateX(0px)`;
 
         void slot.offsetWidth;
 
@@ -165,12 +173,11 @@ export function Carousel({options}){
            slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
-        setResult(SlotSheet[realIndex]);
-
         setTimeout(() => {
             setFinished(true);
             setSpinning(false);
         }, 2000);
+        console.log(randomized[realIndex]);
     }
 
     return (
@@ -186,7 +193,7 @@ export function Carousel({options}){
                     </div>    
                 </div>
             </div>
-            {isLoggedIn? <button className="px-5 my-3" onClick={spin} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
+            {isLoggedIn? <button className="px-5 my-3" onClick={() =>{spin(); setnumSpins(prev => prev+1)}} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
             {Finished? <div>You won {Result}</div>: <></>}
         </div>
     </>

@@ -8,7 +8,7 @@
 
 .slotrow{
     width: 850px;
-    overflow: hidden;
+    /* overflow: hidden;*/
 }
 
 #divider{
@@ -25,7 +25,7 @@
 /*start the animation when the entire slot is visible*/
 /*end it when the slots have moved about 25% through the entire slot*/
 @keyframes spinLoop{
-    0% {transform: translateX(0); }
+    0% {transform: translateX(0px); }
     100% {transform: translateX(-2550px); }
 }
 
@@ -37,5 +37,5 @@
 
 */
 .spinning{
-    animation: spinLoop 1.5s linear;
+    animation: spinLoop 1.5s linear forwards;
 }
