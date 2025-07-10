@@ -10,33 +10,7 @@ import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
-function ChooseBear({option}){
 
-    let choice = "";
-
-    if(option === "white"){
-        choice = common_bear;
-    }
-    else if(option === "blue"){
-        choice = tie_bear;
-    }
-    else if(option === "green"){
-        choice = detective_bear;
-    }
-    else if(option === "purple"){ 
-        choice = sleepy_bear;
-    }
-    else if(option === "black"){
-        choice = boba_bear;
-    }
-    else
-        choice = common_bear;
-    return(
-    <>
-        <img className="img-fluid" src={choice}/>
-    </>
-    )
-}
 
 export function Carousel({options}){
 
@@ -111,23 +85,21 @@ export function Carousel({options}){
     //const slots = [useRef(null), useRef(null), useRef(null)];
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
-
+    const [Finished, setFinished] = useState(false);
+    const [Result, setResult] = useState("");
     const [SlotSheet, setSlotSheet] = useState(Randomize());
     const width = 170;
 
     const spin = () => { 
 
+        setFinished(false);
         setSlotSheet(Randomize());
         setSpinning(true);
 
-        //  slots.forEach((ref) => {
         const slot = slotRef.current;
         const totalOptions = options.length;
         //land on a random number :) random will output nums between 0-1(not including 1 excluded)
         let randomIndex = Math.floor(Math.random() * totalOptions);
-
-        if(randomIndex == 5)
-            randomIndex -= 1;
         
         setTargetIdx(randomIndex);
 
@@ -137,13 +109,10 @@ export function Carousel({options}){
         //repeat for 1 second intervals until 4 seconds then exit 
         slot.classList.add('spinning');
         slot.style.transition = 'none';
-        slot.style.transform = `translateX(0)`;
+        slot.style.transform = `translateX(0px)`;
 
-        setTimeout(() =>
-        {
-            stopSpinning(TargetIdx);
-        }, 2500);
-    //  });
+        //makes sure the animation is detected on finish, fixes timing over setTimeout
+        slot.addEventListener('animationend', () => stopSpinning(TargetIdx));
     }   
 
     const stopSpinning = (index) => {
@@ -151,20 +120,25 @@ export function Carousel({options}){
         const slot = slotRef.current;
 
         const totalOptions = options.length;
-        //const offset = (totalOptions + index -2) * width;
         let offset = (totalOptions * width);
         console.log(index);
 
+        const realIndex = 22+index;
+
+        console.log(SlotSheet[22+index]);
+
+
+        //distance based on chosen index/box (offset to make the indicator point to it)
         if(index === 0)
-            offset += (width*2+85) + Math.floor(Math.random() * 140) + 10; 
+            offset += (width*2+85) //+ Math.floor(Math.random() * 140) + 10; 
         else if(index === 1)
-            offset += (width*3+85) + Math.floor(Math.random() * 140) + 10; 
+            offset += (width*3+85) //+ Math.floor(Math.random() * 140) + 10; 
         else if(index === 2)
-            offset += (width*4+85) + Math.floor(Math.random() * 140) + 10;
+            offset += (width*4+85) //+ Math.floor(Math.random() * 140) + 10;
         else if(index === 3)
-            offset += (width*5+85) + Math.floor(Math.random() * 140) + 10;  
+            offset += (width*5+85) //+ Math.floor(Math.random() * 140) + 10;  
         else if(index === 4)
-            offset += (width*6+85) + Math.floor(Math.random() * 120) + 10;
+            offset += (width*6+85) //+ Math.floor(Math.random() * 120) + 10;
 
         //reset the layout with offsetWidth and starts cleanly to the next transition
         //can use any property that forces layout calc layout like offsetheight. clientTop scrollLeft
@@ -174,9 +148,11 @@ export function Carousel({options}){
 
         void slot.offsetWidth;
 
+        const initial_position = (850*3);
+
         //inital position to save the amount of slots you went over 
         slot.style.transition = 'none';
-        slot.style.transform = `translateX(-${(850*3)}px)`;
+        slot.style.transform = `translateX(-${initial_position}px)`;
         //activate a reflow in the browser so it recalculates the position of everything, aka intitally setting position to -xpx above
         //sets starting point 
         void slot.offsetWidth;
@@ -184,12 +160,17 @@ export function Carousel({options}){
         //queue up the next batch of animation
         //waits for current one to finish, then for next frame it applies this style
         requestAnimationFrame(() => {
-            //queues up style before the next reflow occurs
-            slot.style.transition = `transform 4s ease-out`;
-            slot.style.transform = `translateX(-${(850*3)+offset}px)`;
+           //queues up style before the next reflow occurs
+           slot.style.transition = `transform 2s ease-out`;
+           slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
-        setTimeout(() => setSpinning(false), 1000);
+        setResult(SlotSheet[realIndex]);
+
+        setTimeout(() => {
+            setFinished(true);
+            setSpinning(false);
+        }, 2000);
     }
 
     return (
@@ -206,6 +187,7 @@ export function Carousel({options}){
                 </div>
             </div>
             {isLoggedIn? <button className="px-5 my-3" onClick={spin} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
+            {Finished? <div>You won {Result}</div>: <></>}
         </div>
     </>
     )
