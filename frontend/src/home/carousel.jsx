@@ -14,11 +14,11 @@ import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
 export function Carousel({options}){
 
-    const bears = {"whites": [common_bear], 
-                   "blues": [tie_bear, glasses_bear],
-                   "greens": [detective_bear, delinquent_bear],
-                   "purples": [princess_bear, sleepy_bear],
-                   "blacks": [boba_bear]
+    const bears = {whites: [{card: common_bear, name: "White Bear"}], 
+                   blues: [{card: tie_bear, name: "Tie Bear"},{card: glasses_bear, name: "Glasses Bear"}],
+                   greens: [{card: detective_bear, name: "Detective Bear"}, {card: delinquent_bear, name: "Delinquent Bear"}],
+                   purples: [{card: princess_bear, name: "Princess Bear"}, {card: sleepy_bear, name: "Sleepy Bear"}],
+                   blacks: [{card: boba_bear, name: "Boba Bear"}],
                   };
 
     function Randomize(){
@@ -33,41 +33,75 @@ export function Carousel({options}){
             if(choice < 30){
                 const whites = bears["whites"];
                 const choice_bear = Math.floor(Math.random() * whites.length);
-                tempArr[i] = whites[choice_bear];
+                tempArr[i] = {bear: whites[choice_bear],
+                              tier : "white",
+                              };
             }
             //30-44 15/64%
             else if(choice < 45){
                 const blues = bears["blues"];
                 const choice_bear = Math.floor(Math.random() * blues.length);
-                tempArr[i] = blues[choice_bear];
+                tempArr[i] = {bear: blues[choice_bear],
+                              tier : "blue",
+                              };
             }
             //45-54 10/64%
             else if(choice < 55){
                 const greens = bears["greens"];
                 const choice_bear = Math.floor(Math.random() * greens.length);
-                tempArr[i] = greens[choice_bear];
+                tempArr[i] = {bear: greens[choice_bear],
+                              tier : "green",
+                              };
             }
             //55-61 7/64%
             else if(choice < 60){
                 const purples = bears["purples"];
                 const choice_bear = Math.floor(Math.random() * purples.length);
-                tempArr[i] = purples[choice_bear];
+                tempArr[i] = {bear: purples[choice_bear],
+                              tier : "purple",
+                              };
             }
             //60-62 3/64%
             else if(choice < 62){
                 const blacks = bears["blacks"];
                 const choice_bear = Math.floor(Math.random() * blacks.length);
-                tempArr[i] = blacks[choice_bear];
+                tempArr[i] = {bear: blacks[choice_bear],
+                              tier : "black",
+                              };
             }
             //63. 2/64%
             else if (choice <= 63){
                 const blacks = bears["blacks"];
                 const choice_bear = Math.floor(Math.random() * blacks.length);
-                tempArr[i] = blacks[choice_bear];
+                tempArr[i] = {bear: blacks[choice_bear],
+                              tier : "black",
+                              };
             }
         }
 
+        console.log(tempArr);
+
         return tempArr;
+    }
+
+    function DisplayBears(){
+
+        const whites = bears["whites"];
+        const blues = bears["blues"];
+        const greens = bears["greens"];
+        const purples = bears["purples"];
+        const blacks = bears["blacks"];
+        
+
+        
+        const displayArr = [{bear: whites[0], tier: "white",},
+                              {bear: blues[0], tier:  "blue",},
+                              {bear: greens[0], tier: "green",},
+                              {bear: purples[0], tier: "purple",},
+                              {bear: blacks[0], tier: "black",},
+    ]
+
+        return displayArr;
     }
 
     let isLoggedIn = false;
@@ -87,7 +121,7 @@ export function Carousel({options}){
     const [TargetIdx, setTargetIdx] = useState(0);
     const [Finished, setFinished] = useState(false);
     const [Result, setResult] = useState("");
-    const [SlotSheet, setSlotSheet] = useState([common_bear,common_bear,common_bear,common_bear,common_bear]);
+    const [SlotSheet, setSlotSheet] = useState(DisplayBears);
     const [numSpins, setnumSpins] = useState(0);
     const width = 170;
     let newArr = [];
@@ -98,7 +132,8 @@ export function Carousel({options}){
 
         const randomized = Randomize();
         setSlotSheet(randomized);
-        console.log(randomized);
+
+        console.log(randomized[0]["bear"]["card"]);
 
         setFinished(false);
         //set it for the next render
@@ -131,7 +166,6 @@ export function Carousel({options}){
         let offset = (totalOptions * width);
 
         const realIndex = 25+index;
-        console.log(realIndex);
 
         //distance based on chosen index/box (offset to make the indicator point to it)
         if(index === 0)
@@ -176,9 +210,15 @@ export function Carousel({options}){
         setTimeout(() => {
             setFinished(true);
             setSpinning(false);
+            setResult(randomized[realIndex]["bear"]["name"]);
         }, 2000);
-        console.log(randomized[realIndex]);
     }
+
+    /*
+    {SlotSheet.map((option, j) => (
+        <div className="option" key={j}><img className="img-fluid" src={option["bear"]["card"]}/></div>
+    ))}  
+    */
 
     return (
     <>
@@ -186,10 +226,10 @@ export function Carousel({options}){
             <div id="divider"></div>
             <div className="d-flex flex-row slotrow justify-content-start">
                 <div className="d-flex" ref={slotRef}>
-                    <div className="d-flex" ref={slotboxRef}>
-                        {SlotSheet.map((option, j) => (
-                            <div className="option" key={j}><img className="img-fluid" src={option}/></div>
-                        ))}   
+                    <div className="d-flex" ref={slotboxRef}> 
+                    {SlotSheet.map((option, j) => (
+                        <div className="option" key={j}><img className="img-fluid" src={option["bear"]["card"]}/></div>
+                    ))}  
                     </div>    
                 </div>
             </div>
