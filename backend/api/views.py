@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .models import Inventory
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, InventorySerializer
 
 import json
 
@@ -58,3 +58,39 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Create your views here.
+
+class InventoryView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        
+        inventory = Inventory.objects.filter(user=request.user).order_by("id")
+
+        #convert JSON -> serializer
+        serializer = InventorySerializer(inventory, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        print(request.data)
+
+        inv_data = request.data
+
+        inventory = Inventory.objects.create(user=request.user, 
+                                             item_name=inv_data["item_name"],
+                                             tier=inv_data["tier"],
+                                             item_image=inv_data["item_image"])
+
+        serializer = InventorySerializer(inventory, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Item added to Inventory", "data": serializer.data}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+        

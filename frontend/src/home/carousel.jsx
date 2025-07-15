@@ -9,6 +9,7 @@ import delinquent_bear from '../assets/bear_bank/delinquent_bear.JPG'
 import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
+import postItems from './items'
 
 
 
@@ -79,8 +80,6 @@ export function Carousel({options}){
             }
         }
 
-        console.log(tempArr);
-
         return tempArr;
     }
 
@@ -132,8 +131,6 @@ export function Carousel({options}){
 
         const randomized = Randomize();
         setSlotSheet(randomized);
-
-        console.log(randomized[0]["bear"]["card"]);
 
         setFinished(false);
         //set it for the next render
@@ -207,18 +204,37 @@ export function Carousel({options}){
            slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
-        setTimeout(() => {
+        setTimeout(async () => {
             setFinished(true);
             setSpinning(false);
-            setResult(randomized[realIndex]["bear"]["name"]);
+            setResult(randomized[realIndex]);
+            const message = await postItems(randomized[realIndex]);
+            console.log(message);
         }, 2000);
     }
 
-    /*
-    {SlotSheet.map((option, j) => (
-        <div className="option" key={j}><img className="img-fluid" src={option["bear"]["card"]}/></div>
-    ))}  
-    */
+    function ShowResult() {
+
+        let tier_color ="#ffffff";
+
+        if(Result["tier"] === "blue")
+            tier_color = "#3f48cc";
+        else if(Result["tier"] === "green")
+            tier_color = "#31751cff";
+        else if(Result["tier"] === "purple")
+            tier_color = "#86278dff";
+        else if(Result["tier"] === "black")
+            tier_color = "#000000";
+        else
+            tier_color ="#ffffff";
+
+        return (
+        <>
+            <h5>You Won:</h5>
+            <h4 style={{ color: tier_color }}>{Result["bear"]["name"]}</h4>
+        </>
+        )
+    }
 
     return (
     <>
@@ -234,7 +250,7 @@ export function Carousel({options}){
                 </div>
             </div>
             {isLoggedIn? <button className="px-5 my-3" onClick={() =>{spin(); setnumSpins(prev => prev+1)}} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
-            {Finished? <div>You won {Result}</div>: <></>}
+            {Finished? <ShowResult/>: <></>}
         </div>
     </>
     )

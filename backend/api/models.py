@@ -37,3 +37,16 @@ class CustomUser(AbstractBaseUser):
 
     def __str__ (self):
         return self.username
+
+class Inventory(models.Model):
+
+    # (1-1, on delete of user, inventory is gone, inventory is how user calls Inventory model)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="inventory")
+
+    item_name = models.CharField(max_length=50)
+    tier = models.CharField(max_length=30)
+    item_image = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"{self.item_name} & {self.tier}"
+

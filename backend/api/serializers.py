@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Inventory
 from django.contrib.auth import authenticate
 
 
@@ -31,5 +31,8 @@ class LoginSerializer(serializers.Serializer):
         #HTTP 400
         raise serializers.ValidationError("Invalid Login Credentials")
         
-    
 
+class InventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ["item_name", "tier", "item_image"]
