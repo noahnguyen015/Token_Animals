@@ -9,7 +9,7 @@ import delinquent_bear from '../assets/bear_bank/delinquent_bear.JPG'
 import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
-import {postItems, getItems} from './items'
+import {postItems, getItems} from '../items/items'
 
 
 

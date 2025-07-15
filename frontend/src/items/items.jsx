@@ -1,5 +1,3 @@
-
-
 async function refreshLoginToken() {
     const refreshtoken = localStorage.getItem('refresh');
 
