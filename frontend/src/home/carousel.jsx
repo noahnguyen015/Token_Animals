@@ -9,7 +9,7 @@ import delinquent_bear from '../assets/bear_bank/delinquent_bear.JPG'
 import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
-import postItems from './items'
+import {postItems, getItems} from './items'
 
 
 
@@ -124,6 +124,16 @@ export function Carousel({options}){
     const [numSpins, setnumSpins] = useState(0);
     const width = 170;
     let newArr = [];
+
+    useEffect(() =>
+    {
+        async function callItems(){
+            const inventory = await getItems();
+            console.log(inventory);
+        }
+        callItems();
+        
+    },[]);
 
     ///FIX find a way to randomize the array on every spin and grab the correct bear
 
