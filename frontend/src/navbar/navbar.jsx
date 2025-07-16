@@ -26,6 +26,7 @@ const navigate = useNavigate();
     <div  className="d-flex flex-row align-items-center justify-content-center">
         <nav className="d-flex flex-row align-items-center justify-content-end navtesting">
             <div className="d-flex me-5">
+                <Link to="/"><button className="p-3 px-4">Home</button></Link>
                 <button className="p-3 px-4">About</button>
                 {isLoggedIn? <Link to="/inventory"><button className="p-3 px-4">Inventory</button></Link> : <></>}
                 {isLoggedIn? <button className="p-3 px-4">Profile</button>: <></>}
