@@ -79,8 +79,7 @@ class InventoryView(APIView):
 
         inventory = Inventory.objects.create(user=request.user, 
                                              item_name=inv_data["item_name"],
-                                             tier=inv_data["tier"],
-                                             item_image=inv_data["item_image"])
+                                             tier=inv_data["tier"],)
 
         serializer = InventorySerializer(inventory, data=request.data)
 

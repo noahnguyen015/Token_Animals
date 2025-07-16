@@ -115,25 +115,17 @@ export function Carousel({options}){
 
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
+    //hold on to the current timeout for many renders
+    //is stable for multiple renders
+    const setTimeoutRef = useRef(null);
     //const slots = [useRef(null), useRef(null), useRef(null)];
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
     const [Finished, setFinished] = useState(false);
-    const [Result, setResult] = useState("");
+    const [Result, setResult] = useState(null);
     const [SlotSheet, setSlotSheet] = useState(DisplayBears);
     const [numSpins, setnumSpins] = useState(0);
     const width = 170;
-    let newArr = [];
-
-    useEffect(() =>
-    {
-        async function callItems(){
-            const inventory = await getItems();
-            console.log(inventory);
-        }
-        callItems();
-        
-    },[]);
 
     ///FIX find a way to randomize the array on every spin and grab the correct bear
 
@@ -214,7 +206,14 @@ export function Carousel({options}){
            slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
-        setTimeout(async () => {
+        //clear the last timeout to set a new one
+        //removes triggering many rerenders, clear the pending timeouts
+        if(setTimeoutRef.current)
+            clearTimeout(setTimeoutRef.current);
+
+        //set it to the current timeout reference, so only the current one runs
+        //updating does not trigger rerender for ref.current
+        setTimeoutRef.current = setTimeout(async () => {
             setFinished(true);
             setSpinning(false);
             setResult(randomized[realIndex]);

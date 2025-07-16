@@ -45,7 +45,6 @@ class Inventory(models.Model):
 
     item_name = models.CharField(max_length=50)
     tier = models.CharField(max_length=30)
-    item_image = models.CharField(max_length=150)
 
     def __str__(self):
         return f"{self.item_name} & {self.tier}"

@@ -25,6 +25,8 @@ async function refreshLoginToken() {
 
 export async function postItems(new_item){
 
+    console.log(new_item);
+
     let accesstoken = localStorage.getItem("access");
     const refreshtoken = localStorage.getItem("refresh");
 
@@ -34,7 +36,6 @@ export async function postItems(new_item){
         body: JSON.stringify({
             item_name: new_item["bear"]["name"],     
             tier: new_item["tier"],
-            item_image: new_item["bear"]["card"],
         }),
         headers: { "Content-Type": "application/json",
                    "Authorization": `Bearer ${accesstoken}`    
@@ -51,7 +52,6 @@ export async function postItems(new_item){
                 body: JSON.stringify({
                     item_name: new_item["bear"]["name"],
                     tier: new_item["tier"],
-                    item_image: new_item["bear"]["card"],
                 }),
                 headers: { "Content-Type": "application/json",
                             "Authorization": `Bearer ${accesstoken}`,  
@@ -72,7 +72,7 @@ export async function postItems(new_item){
     const reply = await response.json();
 
     if(response.ok){
-        return reply["message"]
+        return reply["message"];
     }else{
         console.log("Submission to Inventory Failed");
     }

@@ -26,10 +26,10 @@ const navigate = useNavigate();
     <div  className="d-flex flex-row align-items-center justify-content-center">
         <nav className="d-flex flex-row align-items-center justify-content-end navtesting">
             <div className="d-flex me-5">
-            <button className="p-3 px-4">About</button>
-            <button className="p-3 px-4">Inventory</button>
-            {isLoggedIn? <button className="p-3 px-4">Profile</button>: <></>}
-            {isLoggedIn? <button className="p-3 px-4" onClick={Logout}>Logout</button>: <Link to="/login"><button className="p-3 px-4">Login</button></Link>}
+                <button className="p-3 px-4">About</button>
+                {isLoggedIn? <Link to="/inventory"><button className="p-3 px-4">Inventory</button></Link> : <></>}
+                {isLoggedIn? <button className="p-3 px-4">Profile</button>: <></>}
+                {isLoggedIn? <button className="p-3 px-4" onClick={Logout}>Logout</button> : <Link to="/login"><button className="p-3 px-4">Login</button></Link>}
             </div>
         </nav>
     </div>

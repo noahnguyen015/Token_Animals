@@ -35,4 +35,4 @@ class LoginSerializer(serializers.Serializer):
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
-        fields = ["item_name", "tier", "item_image"]
+        fields = ["item_name", "tier"]
