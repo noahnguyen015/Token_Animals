@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {Carousel} from './carousel'
 import {NavBar} from '../navbar/navbar'
+import Banner from './banner'
 import './home.css'
 
 function Home() {
@@ -22,7 +23,14 @@ function Home() {
     <>
         <h2>GAMBLING WEBSITE WITHOUT A NAME</h2>
         <NavBar/>
-        <Carousel options={options}/>
+        <div className="row">
+          <div className="col-3"></div>
+          <div className="col-6">
+            <Banner/>
+            <Carousel options={options}/>
+          </div>
+          <div className="col-3"></div>
+        </div>
     </>
   )
 }

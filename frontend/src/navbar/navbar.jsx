@@ -35,7 +35,6 @@ const navigate = useNavigate();
             </div>
         </nav>
     </div>
-    <br/>
     </>
     )
 }
