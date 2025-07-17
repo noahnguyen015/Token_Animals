@@ -15,13 +15,12 @@ function Home() {
    const username = localStorage.getItem("username");
 
    if(accesstoken && refreshtoken){
-    console.log("You are logged in!")
     isLoggedIn = true;
    }
 
   return (
     <>
-        <h3>GAMBLING WEBSITE WITHOUT A NAME</h3>
+        <h2>GAMBLING WEBSITE WITHOUT A NAME</h2>
         <NavBar/>
         <Carousel options={options}/>
     </>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import {getItems} from '../items/items'
 import {NavBar} from '../navbar/navbar'
-import common_bear from '../assets/bear_bank/common_bear.JPG'
 
+import common_bear from '../assets/bear_bank/common_bear.JPG'
 import tie_bear from '../assets/bear_bank/tie_bear.JPG'
 import glasses_bear from '../assets/bear_bank/glasses_bear.JPG'
 import detective_bear from '../assets/bear_bank/detective_bear.JPG'
@@ -13,45 +13,96 @@ import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
 import './inventory.css'
 
+function Count_Inventory(inventory, choice){
+    
+    const set1Counter = {"White Bear": {count: 0, image: common_bear}, 
+                            "Tie Bear": {count: 0, image: tie_bear}, "Glasses Bear": {count: 0, image: glasses_bear}, 
+                            "Detective Bear": {count: 0, image: detective_bear}, "Delinquent Bear": {count: 0, image: delinquent_bear}, 
+                            "Princess Bear": {count: 0, image: princess_bear}, "Sleepy Bear": {count: 0, image: sleepy_bear}, 
+                            "Boba Bear": {count: 0, image: boba_bear},};
 
-function Choose_Collection(){
+    const set2Counter = {"White Bear": {count: 0, image: common_bear}};
+
+    let inventoryCounter = {};
+
+    if(choice === "set2") {
+        inventoryCounter = set2Counter;
+    }
+    else if(choice === "set3") {
+        inventoryCounter = set2Counter;
+    }
+    else if(choice === "set4") {
+        inventoryCounter = set2Counter;
+    }
+    else {
+        inventoryCounter = set1Counter;
+    }
+
+    for(let i = 0; i < inventory.length; i++){
+
+        const card_name = inventory[i]["item_name"];
+
+        if(card_name in inventoryCounter)
+            inventoryCounter[card_name]["count"] += 1;
+    }
+
+    return inventoryCounter;
+}
+
+function Choose_Collection({inventory}){
+
+    const [choice, setChoice] = useState("set1");
+    let inventory_count = {};
+
+    if(choice === "set2") {
+        inventory_count = Count_Inventory(inventory, choice);
+    }
+    else if(choice === "set3") {
+        inventory_count = Count_Inventory(inventory, choice);
+    }
+    else if(choice === "set4") {
+        inventory_count = Count_Inventory(inventory, choice);
+    }
+    else {
+        inventory_count = Count_Inventory(inventory, choice);
+    }
 
     return (
     <>
-        <h3>Collection</h3>
-        <button className="w-100 h-25"><h4>Collection Set 1</h4></button>
-        <button className="w-100 h-25"><h4>Collection Set 2</h4></button>
-        <button className="w-100 h-25"><h4>Collection Set 3</h4></button>
-        <button className="w-100 h-25"><h4>Collection Set 4</h4></button>
+        <h3>Inventory</h3>
+        <div className="row">
+            <div className="col-3">
+                <h3>Collection</h3>
+                <button className="w-100 h-25" onClick={() => setChoice("set1")}><h4>Collection Set 1</h4></button>
+                <button className="w-100 h-25" onClick={() => setChoice("set2")}><h4>Collection Set 2</h4></button>
+                <button className="w-100 h-25" onClick={() => setChoice("set3")}><h4>Collection Set 3</h4></button>
+                <button className="w-100 h-25" onClick={() => setChoice("set4")}><h4>Collection Set 4</h4></button>
+            </div>
+            <div className="col-6 d-flex align-items-start collection-book flex-wrap">
+                {inventory? <Collection choice={choice} inventory_count={inventory_count}/>: <h3>Loading...</h3>}
+            </div>
+            <div className="col-3"></div>
+        </div>
     </>
     )
 }
 
 
-function Collection(choice){
-
-    let chosen_set = [];
-
-    const set1 = [common_bear, tie_bear, glasses_bear, detective_bear, 
-                  delinquent_bear, princess_bear, sleepy_bear, boba_bear];
-
-    //if(choice === "set1")
-        chosen_set = set1;
-
-    console.log(common_bear);
+function Collection({choice, inventory_count}){
 
     return(
     <>
-        <div className="row">
-            <h4>Inventory</h4>
-            <div className="col-3"><Choose_Collection/></div>
-            <div className="col-6 d-flex align-items-start collection-book flex-wrap">
-                {
-                chosen_set.map((card, i) => (<img className="img-fluid collection-card" src={card}/>))
-                }
-            </div>
-            <div className="col-3"></div>
-        </div>
+        {
+            Object.entries(inventory_count).map(([key, value]) => (
+                <div className="collection-card" key={key}>
+                    <img className={value["count"] > 0? "img-fluid collection-card-image": "collection-card-image-missing"}  src={value["image"]}/><br/>
+                    <div className="d-flex justify-content-between">
+                        <div className="collection-card-text">{key}</div>
+                        <div className="collection-card-text">{value["count"]}x</div>
+                    </div>
+                </div>
+            ))
+        }   
     </>
     )
 }
@@ -62,25 +113,19 @@ export function Inventory() {
 
     useEffect(() =>
     {
-
         async function callItems(){
             const backendItems = await getItems();
             SetInventory(backendItems);
         }
-
         callItems();
-
     },[])
-
-    if(inventory)
-        console.log(inventory);
 
     return (
     <>
-        <h3>GAMBLING WEBSITE WITHOUT A NAME</h3>
+        <h2>GAMBLING WEBSITE WITHOUT A NAME</h2>
         <NavBar/>
         <div>
-        <Collection/>
+        {inventory? <Choose_Collection inventory={inventory}/>: <h3>Loading...</h3>}
         </div>
     </>
     )
