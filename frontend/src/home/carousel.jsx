@@ -12,6 +12,14 @@ import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 import {postItems, getItems} from '../items/items'
 
+import common_goose from '../assets/geese_bank/common_goose.JPG'
+import tie_goose from '../assets/geese_bank/tie_goose.JPG'
+import hat_goose from '../assets/geese_bank/hat_goose.JPG'
+import fisher_goose from '../assets/geese_bank/fisher_goose.JPG'
+import chef_goose from '../assets/geese_bank/chef_goose.JPG'
+import viking_goose from '../assets/geese_bank/viking_goose.JPG'
+import pilot_goose from '../assets/geese_bank/pilot_goose.JPG'
+import samurai_goose from '../assets/geese_bank/samurai_goose.JPG'
 
 
 export function Carousel({options}){
@@ -23,9 +31,30 @@ export function Carousel({options}){
                    blacks: [{card: boba_bear, name: "Boba Bear"}],
                   };
 
+    const geese = {whites: [{card: common_goose, name: "White Goose"}], 
+                   blues: [{card: tie_goose, name: "Tie Goose"},{card: hat_goose, name: "Hat Goose"}],
+                   greens: [{card: fisher_goose, name: "Fisher Goose"}, {card: chef_goose, name: "Chef Goose"}],
+                   purples: [{card: viking_goose, name: "Viking Goose"}, {card: pilot_goose, name: "Pilot Goose"}],
+                   blacks: [{card: samurai_goose, name: "Samurai Goose"}],};
+    
+
+    const coming_soon = {};
+
+    const sets = [bears, geese, coming_soon];
+
     function Randomize(){
 
-        let tempArr = []
+        let currentset = [];
+
+        //choose one of the sets to gamble on
+        if(currentCollectionPtr === 0)
+            currentset = sets[0];
+        else if(currentCollectionPtr === 1)
+            currentset = sets[1];
+        else if(currentCollectionPtr === 2)
+            currentset = sets[2];
+
+        let tempArr = [];
 
         for(let i = 0; i < 50; i++){
 
@@ -33,49 +62,49 @@ export function Carousel({options}){
 
             //0-29 30/64
             if(choice < 30){
-                const whites = bears["whites"];
-                const choice_bear = Math.floor(Math.random() * whites.length);
-                tempArr[i] = {bear: whites[choice_bear],
+                const whites = currentset["whites"];
+                const choice_index = Math.floor(Math.random() * whites.length);
+                tempArr[i] = {animal: whites[choice_index],
                               tier : "white",
                               };
             }
             //30-44 15/64%
             else if(choice < 45){
-                const blues = bears["blues"];
-                const choice_bear = Math.floor(Math.random() * blues.length);
-                tempArr[i] = {bear: blues[choice_bear],
+                const blues = currentset["blues"];
+                const choice_index = Math.floor(Math.random() * blues.length);
+                tempArr[i] = {animal: blues[choice_index],
                               tier : "blue",
                               };
             }
             //45-54 10/64%
             else if(choice < 55){
-                const greens = bears["greens"];
-                const choice_bear = Math.floor(Math.random() * greens.length);
-                tempArr[i] = {bear: greens[choice_bear],
+                const greens = currentset["greens"];
+                const choice_index = Math.floor(Math.random() * greens.length);
+                tempArr[i] = {animal: greens[choice_index],
                               tier : "green",
                               };
             }
             //55-61 7/64%
             else if(choice < 60){
-                const purples = bears["purples"];
-                const choice_bear = Math.floor(Math.random() * purples.length);
-                tempArr[i] = {bear: purples[choice_bear],
+                const purples = currentset["purples"];
+                const choice_index = Math.floor(Math.random() * purples.length);
+                tempArr[i] = {animal: purples[choice_index],
                               tier : "purple",
                               };
             }
             //60-62 3/64%
             else if(choice < 62){
-                const blacks = bears["blacks"];
-                const choice_bear = Math.floor(Math.random() * blacks.length);
-                tempArr[i] = {bear: blacks[choice_bear],
+                const blacks = currentset["blacks"];
+                const choice_index = Math.floor(Math.random() * blacks.length);
+                tempArr[i] = {animal: blacks[choice_index],
                               tier : "black",
                               };
             }
             //63. 2/64%
             else if (choice <= 63){
-                const blacks = bears["blacks"];
-                const choice_bear = Math.floor(Math.random() * blacks.length);
-                tempArr[i] = {bear: blacks[choice_bear],
+                const blacks = currentset["blacks"];
+                const choice_index = Math.floor(Math.random() * blacks.length);
+                tempArr[i] = {animal: blacks[choice_index],
                               tier : "black",
                               };
             }
@@ -84,22 +113,29 @@ export function Carousel({options}){
         return tempArr;
     }
 
-    function DisplayBears(){
+    function DisplayAnimal(){
 
-        const whites = bears["whites"];
-        const blues = bears["blues"];
-        const greens = bears["greens"];
-        const purples = bears["purples"];
-        const blacks = bears["blacks"];
-        
+        let currentset = [];
 
+        if(currentCollectionPtr === 0)
+            currentset = sets[0];
+        else if(currentCollectionPtr === 1)
+            currentset = sets[1];
+        else if(currentCollectionPtr === 2)
+            currentset = sets[2];
+
+        const whites = currentset["whites"];
+        const blues = currentset["blues"];
+        const greens = currentset["greens"];
+        const purples = currentset["purples"];
+        const blacks = currentset["blacks"];
         
-        const displayArr = [{bear: whites[0], tier: "white",},
-                              {bear: blues[0], tier:  "blue",},
-                              {bear: greens[0], tier: "green",},
-                              {bear: purples[0], tier: "purple",},
-                              {bear: blacks[0], tier: "black",},
-    ]
+        const displayArr = [{animal: whites[0], tier: "white",},
+                            {animal: blues[0], tier:  "blue",},
+                            {animal: greens[0], tier: "green",},
+                            {animal: purples[0], tier: "purple",},
+                            {animal: blacks[0], tier: "black",},
+        ]
 
         return displayArr;
     }
@@ -114,7 +150,7 @@ export function Carousel({options}){
         isLoggedIn = true;
     }
 
-    const [currentCollection, setCollection] = useState(0);
+    const [currentCollectionPtr, setCollectionPtr] = useState(0);
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
     //hold on to the current timeout for many renders
@@ -125,11 +161,9 @@ export function Carousel({options}){
     const [TargetIdx, setTargetIdx] = useState(0);
     const [Finished, setFinished] = useState(false);
     const [Result, setResult] = useState(null);
-    const [SlotSheet, setSlotSheet] = useState(DisplayBears);
+    const [SlotSheet, setSlotSheet] = useState([]);
     const [numSpins, setnumSpins] = useState(0);
     const width = 170;
-
-    ///FIX find a way to randomize the array on every spin and grab the correct bear
 
     const spin = () => {
 
@@ -242,21 +276,48 @@ export function Carousel({options}){
         return (
         <>
             <h5>You Won:</h5>
-            <h4 style={{ color: tier_color }}>{Result["bear"]["name"]}</h4>
+            <h4 style={{ color: tier_color }}>{Result["animal"]["name"]}</h4>
         </>
         )
     }
 
+    useEffect(() => 
+    {
+       if(currentCollectionPtr === 0) {
+
+        console.log("number 0");
+        const slot = slotRef.current;
+        void slot.offsetWidth;
+        const displaynew = DisplayAnimal();
+        slot.style.transition = 'none';
+        slot.style.transform = `translateX(0px)`;
+        setSlotSheet(displaynew);
+       }
+       else if(currentCollectionPtr === 1) {
+        console.log("number 1");
+        const slot = slotRef.current;
+        void slot.offsetWidth;
+        const displaynew = DisplayAnimal();
+        slot.style.transition = 'none';
+        slot.style.transform = `translateX(0px)`;
+        setSlotSheet(displaynew);
+       }
+       else if(currentCollectionPtr === 2) {
+        console.log("number 2");
+       }
+
+    },[currentCollectionPtr]);
+
     return (
     <>
-        <Banner currentCollection={currentCollection} setCollection={setCollection}/>
+        <Banner currentCollectionPtr={currentCollectionPtr} setCollectionPtr={setCollectionPtr}/>
         <div className="d-flex align-items-center flex-column justify-content-start h-100 pt-5">
             <div id="divider"></div>
             <div className="d-flex flex-row slotrow justify-content-start">
                 <div className="d-flex" ref={slotRef}>
                     <div className="d-flex" ref={slotboxRef}> 
                     {SlotSheet.map((option, j) => (
-                        <div className="option" key={j}><img className="img-fluid" src={option["bear"]["card"]}/></div>
+                        <div className="option" key={j}><img className="img-fluid" src={option["animal"]["card"]}/></div>
                     ))}  
                     </div>    
                 </div>

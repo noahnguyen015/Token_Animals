@@ -8,7 +8,7 @@ function scroll(direction) {
     console.log("scrolled left");
 }
 
-function Banner({currentCollection, setCollection}){
+function Banner({currentCollectionPtr, setCollectionPtr}){
 
     const bannerRef = useRef(null);
 
@@ -17,7 +17,7 @@ function Banner({currentCollection, setCollection}){
     function scroll(direction) {
         console.log("scrolled");
 
-        setCollection(prev => { 
+        setCollectionPtr(prev => { 
             if((prev === 0 && direction === -1) || (prev === 2 && direction === 1)){
                 console.log(prev);
                 return prev

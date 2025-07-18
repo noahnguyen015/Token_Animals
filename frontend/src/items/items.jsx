@@ -34,7 +34,7 @@ export async function postItems(new_item){
     {
         method: "POST",
         body: JSON.stringify({
-            item_name: new_item["bear"]["name"],     
+            item_name: new_item["animal"]["name"],     
             tier: new_item["tier"],
         }),
         headers: { "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export async function postItems(new_item){
             {
                 method: "POST",
                 body: JSON.stringify({
-                    item_name: new_item["bear"]["name"],
+                    item_name: new_item["animal"]["name"],
                     tier: new_item["tier"],
                 }),
                 headers: { "Content-Type": "application/json",
