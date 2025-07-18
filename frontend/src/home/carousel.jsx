@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom' 
+import Banner from './banner'
 import './carousel.css'
 import common_bear from '../assets/bear_bank/common_bear.JPG'
 import tie_bear from '../assets/bear_bank/tie_bear.JPG'
@@ -113,6 +114,7 @@ export function Carousel({options}){
         isLoggedIn = true;
     }
 
+    const [currentCollection, setCollection] = useState(0);
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
     //hold on to the current timeout for many renders
@@ -247,6 +249,7 @@ export function Carousel({options}){
 
     return (
     <>
+        <Banner currentCollection={currentCollection} setCollection={setCollection}/>
         <div className="d-flex align-items-center flex-column justify-content-start h-100 pt-5">
             <div id="divider"></div>
             <div className="d-flex flex-row slotrow justify-content-start">

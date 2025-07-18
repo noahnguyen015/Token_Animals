@@ -8,13 +8,25 @@ function scroll(direction) {
     console.log("scrolled left");
 }
 
-function Banner(){
+function Banner({currentCollection, setCollection}){
 
     const bannerRef = useRef(null);
+
+    const collections = ["set1", "set2", "set3"];
 
     function scroll(direction) {
         console.log("scrolled");
 
+        setCollection(prev => { 
+            if((prev === 0 && direction === -1) || (prev === 2 && direction === 1)){
+                console.log(prev);
+                return prev
+            }
+            else{
+                console.log(prev + direction);
+                return prev + direction;
+            }
+        });
 
         //find the width of the banner dynamically
         const banner = bannerRef.current.children[0];
