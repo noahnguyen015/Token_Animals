@@ -1,4 +1,23 @@
 .banner {
     background-color: #000000;
     height: 10vh;
+    min-width: 100%;
+    scroll-snap-align: start;
+}
+
+.banner-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scroll-snap-type: x mandatory;
+}
+
+.banner-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.scroll-button {
+    cursor: pointer;
+    font-size: 2.5rem;
 }
