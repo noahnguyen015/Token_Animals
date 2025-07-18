@@ -11,6 +11,15 @@ import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 
+import common_goose from '../assets/geese_bank/common_goose.JPG'
+import tie_goose from '../assets/geese_bank/tie_goose.JPG'
+import hat_goose from '../assets/geese_bank/hat_goose.JPG'
+import fisher_goose from '../assets/geese_bank/fisher_goose.JPG'
+import chef_goose from '../assets/geese_bank/chef_goose.JPG'
+import viking_goose from '../assets/geese_bank/viking_goose.JPG'
+import pilot_goose from '../assets/geese_bank/pilot_goose.JPG'
+import samurai_goose from '../assets/geese_bank/samurai_goose.JPG'
+
 import './inventory.css'
 
 function Count_Inventory(inventory, choice){
@@ -21,7 +30,11 @@ function Count_Inventory(inventory, choice){
                             "Princess Bear": {count: 0, image: princess_bear}, "Sleepy Bear": {count: 0, image: sleepy_bear}, 
                             "Boba Bear": {count: 0, image: boba_bear},};
 
-    const set2Counter = {"White Bear": {count: 0, image: common_bear}};
+    const set2Counter  = {"White Goose": {count: 0, image: common_goose}, 
+                            "Tie Goose": {count: 0, image: tie_goose}, "Hat Goose": {count: 0, image: hat_goose}, 
+                            "Fisher Goose": {count: 0, image: fisher_goose}, "Chef Goose": {count: 0, image: chef_goose}, 
+                            "viking_goose": {count: 0, image: viking_goose}, "Pilot Goose": {count: 0, image: pilot_goose}, 
+                            "Samurai Goose": {count: 0, image: samurai_goose},};
 
     let inventoryCounter = {};
 
