@@ -20,6 +20,9 @@ import viking_goose from '../assets/geese_bank/viking_goose.JPG'
 import pilot_goose from '../assets/geese_bank/pilot_goose.JPG'
 import samurai_goose from '../assets/geese_bank/samurai_goose.JPG'
 
+import bear_banner from '../assets/icon_bank/bear_banner.png' 
+import goose_banner from '../assets/icon_bank/goose_banner.png' 
+
 import './inventory.css'
 
 function Count_Inventory(inventory, choice){
@@ -39,12 +42,6 @@ function Count_Inventory(inventory, choice){
     let inventoryCounter = {};
 
     if(choice === "set2") {
-        inventoryCounter = set2Counter;
-    }
-    else if(choice === "set3") {
-        inventoryCounter = set2Counter;
-    }
-    else if(choice === "set4") {
         inventoryCounter = set2Counter;
     }
     else {
@@ -67,18 +64,8 @@ function Choose_Collection({inventory}){
     const [choice, setChoice] = useState("set1");
     let inventory_count = {};
 
-    if(choice === "set2") {
-        inventory_count = Count_Inventory(inventory, choice);
-    }
-    else if(choice === "set3") {
-        inventory_count = Count_Inventory(inventory, choice);
-    }
-    else if(choice === "set4") {
-        inventory_count = Count_Inventory(inventory, choice);
-    }
-    else {
-        inventory_count = Count_Inventory(inventory, choice);
-    }
+    inventory_count = Count_Inventory(inventory, choice);
+
 
     return (
     <>
@@ -86,10 +73,9 @@ function Choose_Collection({inventory}){
         <div className="row">
             <div className="col-3">
                 <h3>Collection</h3>
-                <button className="w-100 h-25" onClick={() => setChoice("set1")}><h4>Collection Set 1</h4></button>
-                <button className="w-100 h-25" onClick={() => setChoice("set2")}><h4>Collection Set 2</h4></button>
-                <button className="w-100 h-25" onClick={() => setChoice("set3")}><h4>Collection Set 3</h4></button>
-                <button className="w-100 h-25" onClick={() => setChoice("set4")}><h4>Collection Set 4</h4></button>
+                <button className="w-100 h-25 collection-button" onClick={() => setChoice("set1")}><h4>Bear Collection <img className="banner-img ms-3" src={bear_banner}/></h4></button>
+                <button className="w-100 h-25 collection-button" onClick={() => setChoice("set2")}><h4>Goose Collection <img className="banner-img ms-3" src={goose_banner}/></h4></button>
+                <button className="w-100 h-25 collection-button"><h4>Coming Soon...</h4></button>
             </div>
             <div className="col-6 d-flex align-items-start collection-book flex-wrap">
                 {inventory? <Collection choice={choice} inventory_count={inventory_count}/>: <h3>Loading...</h3>}
@@ -99,7 +85,6 @@ function Choose_Collection({inventory}){
     </>
     )
 }
-
 
 function Collection({choice, inventory_count}){
 

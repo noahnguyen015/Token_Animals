@@ -3,6 +3,14 @@
     height: 10vh;
     min-width: 100%;
     scroll-snap-align: start;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.banner-img{
+    max-height: 100px;
+    max-width: 120px;
 }
 
 .banner-container {

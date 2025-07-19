@@ -36,11 +36,8 @@ export function Carousel({options}){
                    greens: [{card: fisher_goose, name: "Fisher Goose"}, {card: chef_goose, name: "Chef Goose"}],
                    purples: [{card: viking_goose, name: "Viking Goose"}, {card: pilot_goose, name: "Pilot Goose"}],
                    blacks: [{card: samurai_goose, name: "Samurai Goose"}],};
-    
 
-    const coming_soon = {};
-
-    const sets = [bears, geese, coming_soon];
+    const sets = [bears, geese];
 
     function Randomize(){
 
@@ -285,25 +282,36 @@ export function Carousel({options}){
     {
        if(currentCollectionPtr === 0) {
 
-        console.log("number 0");
+        //if calling after a spin, remove all the offset
         const slot = slotRef.current;
         void slot.offsetWidth;
+        //grab the new set to display
         const displaynew = DisplayAnimal();
         slot.style.transition = 'none';
         slot.style.transform = `translateX(0px)`;
+        //set it to new set
         setSlotSheet(displaynew);
+
+        //remove winning message
+        setFinished(false);
        }
        else if(currentCollectionPtr === 1) {
-        console.log("number 1");
+
+        //if calling after a spin, remove all the offset
         const slot = slotRef.current;
         void slot.offsetWidth;
+        //grab the new set to display
         const displaynew = DisplayAnimal();
         slot.style.transition = 'none';
         slot.style.transform = `translateX(0px)`;
+        //set it to new set
         setSlotSheet(displaynew);
+
+        //remove winning message
+        setFinished(false);
        }
        else if(currentCollectionPtr === 2) {
-        console.log("number 2");
+        console.log('coming soon!')
        }
 
     },[currentCollectionPtr]);

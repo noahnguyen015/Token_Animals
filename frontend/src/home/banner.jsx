@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './banner.css'
+import bear_banner from '../assets/icon_bank/bear_banner.png' 
+import goose_banner from '../assets/icon_bank/goose_banner.png' 
 
 
 function scroll(direction) {
@@ -18,7 +20,7 @@ function Banner({currentCollectionPtr, setCollectionPtr}){
         console.log("scrolled");
 
         setCollectionPtr(prev => { 
-            if((prev === 0 && direction === -1) || (prev === 2 && direction === 1)){
+            if((prev === 0 && direction === -1) || (prev === 1 && direction === 1)){
                 console.log(prev);
                 return prev
             }
@@ -45,9 +47,8 @@ function Banner({currentCollectionPtr, setCollectionPtr}){
                 <div className="row d-flex align-items-center justify-content-center">
                     <div className="col-1 scroll-button" onClick={() => scroll(-1)}>&lt;</div>
                     <div className="col-10 d-flex banner-container p-0" ref={bannerRef}>
-                        <div className="banner" style={{backgroundColor: "green"}}>TESTING</div>
-                        <div className="banner" style={{backgroundColor: "red"}}>TESTING</div>
-                        <div className="banner">TESTING</div>
+                        <div className="banner d-flex justify-content-center align-items-center">Bear Collection <img className="banner-img ms-3" src={bear_banner}/></div>
+                        <div className="banner d-flex justify-content-center align-items-center">Goose Collection<img className="banner-img" src={goose_banner}/></div>
                     </div>
                     <div className="col-1 scroll-button" onClick={() => scroll(1)}>&gt;</div>
                 </div>
