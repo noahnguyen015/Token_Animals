@@ -150,9 +150,13 @@ export function Carousel({options}){
     const [currentCollectionPtr, setCollectionPtr] = useState(0);
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
+    const tickRef = useRef(new Audio('/sounds/switch_007.ogg'));
     //hold on to the current timeout for many renders
     //is stable for multiple renders
+    
     const setTimeoutRef = useRef(null);
+    const setIntervalRef = useRef(null);
+    const setTimeoutRef2 = useRef(null);
     //const slots = [useRef(null), useRef(null), useRef(null)];
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
@@ -172,6 +176,7 @@ export function Carousel({options}){
         setSpinning(true);
 
         const slot = slotRef.current;
+        const tick = tickRef.current;
         const totalOptions = options.length;
         //land on a random number :) random will output nums between 0-1(not including 1 excluded)
         let randomIndex = Math.floor(Math.random() * totalOptions);
@@ -186,6 +191,18 @@ export function Carousel({options}){
         slot.style.transition = 'none';
         slot.style.transform = `translateX(0px)`;
 
+        //2550 = total distance 
+        //2550/17 = 15 slots aka 3 cycles in the start animation
+        //1500ms(1.5s)/15 slots = 100ms per slot 
+        const slotInterval = 1500/15;
+
+        setIntervalRef.current = setInterval (() => {
+                                    tick.currentTime = 0; 
+                                    tick.play();
+                                  }, slotInterval);
+
+        setTimeout(() => clearInterval(setIntervalRef.current), 1500);
+
         //makes sure the animation is detected on finish, fixes timing over setTimeout
         slot.addEventListener('animationend', () => stopSpinning(randomIndex, randomized));
     }   
@@ -193,10 +210,9 @@ export function Carousel({options}){
     const stopSpinning = (index, randomized) => {
 
         const slot = slotRef.current;
-
+        const tick = tickRef.current;
         const totalOptions = options.length;
         let offset = (totalOptions * width);
-
         const realIndex = 25+index;
 
         //distance based on chosen index/box (offset to make the indicator point to it)
@@ -210,6 +226,8 @@ export function Carousel({options}){
             offset += (width*5+85) + Math.floor(Math.random() * 140) + 10;  
         else if(index === 4)
             offset += (width*6+85) + Math.floor(Math.random() * 140) + 10;
+        
+        //find the amount of slots passed dependent on index chosen for result
         
 
         //reset the layout with offsetWidth and starts cleanly to the next transition
@@ -239,10 +257,32 @@ export function Carousel({options}){
            slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
+        const numSlotsPassed = 8+index;
+        const slotInterval = 2000/numSlotsPassed;
+
         //clear the last timeout to set a new one
         //removes triggering many rerenders, clear the pending timeouts
-        if(setTimeoutRef.current)
+        if(setTimeoutRef.current){
             clearTimeout(setTimeoutRef.current);
+        }
+
+        
+        if(setTimeoutRef2.current){
+            clearTimeout(setTimeoutRef2.current);
+        }
+
+        if(setIntervalRef.current){
+            clearInterval(setIntervalRef.current);
+        }
+            
+
+        
+
+        setIntervalRef.current = setInterval (() => {
+                                    tick.currentTime = 0; 
+                                    tick.play();
+                                  }, slotInterval);
+        
 
         //set it to the current timeout reference, so only the current one runs
         //updating does not trigger rerender for ref.current
@@ -253,6 +293,12 @@ export function Carousel({options}){
             const message = await postItems(randomized[realIndex]);
             console.log(message);
         }, 2000);
+
+        
+        setTimeoutRef2.current = setTimeout(() => {
+            clearInterval(setIntervalRef.current);
+        }, 2000);
+        
     }
 
     function ShowResult() {
