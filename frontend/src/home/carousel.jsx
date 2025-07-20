@@ -150,13 +150,12 @@ export function Carousel({options}){
     const [currentCollectionPtr, setCollectionPtr] = useState(0);
     const slotRef = useRef(null);
     const slotboxRef = useRef(null);
-    const tickRef = useRef(new Audio('/sounds/switch_007.ogg'));
+    const tickRef = useRef(new Audio('/sounds/tick_001.ogg'));
     //hold on to the current timeout for many renders
     //is stable for multiple renders
     
     const setTimeoutRef = useRef(null);
     const setIntervalRef = useRef(null);
-    const setTimeoutRef2 = useRef(null);
     //const slots = [useRef(null), useRef(null), useRef(null)];
     const [isSpinning, setSpinning] = useState(false);
     const [TargetIdx, setTargetIdx] = useState(0);
@@ -257,8 +256,9 @@ export function Carousel({options}){
            slot.style.transform = `translateX(-${initial_position+offset}px)`;
         });
 
-        const numSlotsPassed = 8+index;
-        const slotInterval = 2000/numSlotsPassed;
+        //go through 1 full cycle + half + 2 + index
+        const numSlotsPassed = 5+0.5+2+index;
+        const slotInterval = 1500/numSlotsPassed;
 
         //clear the last timeout to set a new one
         //removes triggering many rerenders, clear the pending timeouts
@@ -266,21 +266,19 @@ export function Carousel({options}){
             clearTimeout(setTimeoutRef.current);
         }
 
-        
-        if(setTimeoutRef2.current){
-            clearTimeout(setTimeoutRef2.current);
-        }
-
         if(setIntervalRef.current){
             clearInterval(setIntervalRef.current);
         }
             
 
-        
-
+        let tickCount = 0;
         setIntervalRef.current = setInterval (() => {
                                     tick.currentTime = 0; 
                                     tick.play();
+                                    tickCount++;
+
+                                    if(tickCount >= numSlotsPassed)
+                                        clearInterval(setIntervalRef.current);
                                   }, slotInterval);
         
 
@@ -292,11 +290,6 @@ export function Carousel({options}){
             setResult(randomized[realIndex]);
             const message = await postItems(randomized[realIndex]);
             console.log(message);
-        }, 2000);
-
-        
-        setTimeoutRef2.current = setTimeout(() => {
-            clearInterval(setIntervalRef.current);
         }, 2000);
         
     }
