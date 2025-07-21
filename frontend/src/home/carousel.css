@@ -55,3 +55,19 @@
     background-color: #336ad1;
     font-size: 1.25rem;
 }
+
+a {
+    font-size: 1.25rem;
+    all: unset;
+}
+
+a:hover {
+    all: unset;
+    cursor: pointer;
+    color: #336ad1;
+    transition: 0.25s;
+}
+
+p {
+    font-size: 1.25rem;
+}

@@ -1,0 +1,49 @@
+
+
+.form-box {
+    background-color: #181818;
+    height: 600px;
+}
+
+#root{
+    padding: 0;
+}
+
+.backdrop{
+    background-color: #030f22;
+}
+
+.formfield {
+    background-color: #242424;
+    font-size: 1.25rem;
+    width: 300px;
+    height: 50px;
+    border-color: white;
+    border-radius: 5px;
+}
+
+.formfield:hover {
+    border-color: #336ad1;
+    transition: 0.25s;
+}
+
+.formfield:focus {
+    border-color: #336ad1;
+    outline: none;
+}
+
+.submit-button {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 20px;    
+    padding-right: 20px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #336ad1;
+    font-size: 1.25rem;
+}

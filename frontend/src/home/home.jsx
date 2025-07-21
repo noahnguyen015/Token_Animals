@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {Carousel} from './carousel'
 import {NavBar} from '../navbar/navbar'
 import './home.css'
+import Title from '../title/title'
 
 function Home() {
   
@@ -20,7 +21,7 @@ function Home() {
 
   return (
     <>
-        <h2>TOKEN ANIMALS</h2>
+        <Title/>
         <NavBar/>
         <div className="row">
           <div className="col-3"></div>

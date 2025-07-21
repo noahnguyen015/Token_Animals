@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import Title from '../title/title'
 
 function Login () {
 
@@ -42,6 +43,31 @@ function Login () {
 
     return (
     <>
+        <div className="row h-100">
+            <div className="col-4 backdrop"></div>
+            <div className="col-4 form-container h-100 d-flex flex-column  justify-content-center align-items-center">
+                <Title/>
+                <div className="d-flex flex-column justify-content-center align-items-center form-box w-100">
+                    <h2 className="my-5">LOGIN</h2>
+                    <form onSubmit={handleSubmit}>
+                        <input className="mb-4 formfield" name="username" placeholder="Username" onChange={handleChange} required></input><br/>
+                        <input className="mb-4 formfield" name="password" placeholder="Password" onChange={handleChange} required></input><br/>
+                        <button className="submit-button"type="submit">LOGIN</button>
+                    </form>
+                    <p><Link to="/register">Register a New Account</Link></p>
+                    <p>{message}</p>
+                </div>
+            </div>
+            <div className="col-4 backdrop"></div>
+        </div>
+    </>
+    )
+}
+
+export default Login
+
+/*
+        <Title/>
         <h2>LOGIN PAGE</h2>
         <form onSubmit={handleSubmit}>
             <input name="username" placeholder="Username" onChange={handleChange} required/><br/>
@@ -50,8 +76,4 @@ function Login () {
         </form>
         <p><Link to="/register">Register a New Account</Link></p>
         <p>{message}</p>
-    </>
-    )
-}
-
-export default Login
+*/

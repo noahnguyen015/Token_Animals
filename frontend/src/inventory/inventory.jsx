@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import {getItems} from '../items/items'
 import {NavBar} from '../navbar/navbar'
+import Title from '../title/title'
 
 import common_bear from '../assets/bear_bank/common_bear.JPG'
 import tie_bear from '../assets/bear_bank/tie_bear.JPG'
@@ -120,7 +121,7 @@ export function Inventory() {
 
     return (
     <>
-        <h2>TOKEN ANIMALS</h2>
+        <Title/>
         <NavBar/>
         <div>
         {inventory? <Choose_Collection inventory={inventory}/>: <h3>Loading...</h3>}
