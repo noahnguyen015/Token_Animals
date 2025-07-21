@@ -20,7 +20,7 @@ function Home() {
 
   return (
     <>
-        <h2>GAMBLING WEBSITE WITHOUT A NAME</h2>
+        <h2>TOKEN ANIMALS</h2>
         <NavBar/>
         <div className="row">
           <div className="col-3"></div>

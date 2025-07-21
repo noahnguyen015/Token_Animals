@@ -1,5 +1,16 @@
 .collection-button{
     background-color: #000000;
+    width: 446px;
+    height: 139.5px;
+    border-color: #000000;
+}
+
+.collection-button:active{
+    border-color: #336ad1;
+}
+
+.collection-button:hover{
+    border-color: #336ad1;
 }
 
 .banner-img{

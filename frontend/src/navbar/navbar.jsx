@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'    
+import './navbar.css'
         
 export function NavBar() {
 
@@ -25,13 +26,12 @@ const navigate = useNavigate();
     <>
     <br/>
     <div className="d-flex flex-row align-items-center justify-content-center">
-        <nav className="d-flex flex-row align-items-center justify-content-end navtesting">
+        <nav className="d-flex flex-row align-items-center justify-content-end">
             <div className="d-flex me-5">
-                <Link to="/"><button className="p-3 px-4">Home</button></Link>
-                <button className="p-3 px-4">About</button>
-                {isLoggedIn? <Link to="/inventory"><button className="p-3 px-4">Inventory</button></Link> : <></>}
-                {isLoggedIn? <button className="p-3 px-4">Profile</button>: <></>}
-                {isLoggedIn? <button className="p-3 px-4" onClick={Logout}>Logout</button> : <Link to="/login"><button className="p-3 px-4">Login</button></Link>}
+                <Link to="/"><button className="p-3 px-4 nav-button">Home</button></Link>
+                <button className="p-3 px-4 nav-button">About</button>
+                {isLoggedIn? <Link to="/inventory"><button className="p-3 px-4 nav-button">Inventory</button></Link> : <></>}
+                {isLoggedIn? <button className="p-3 px-4 nav-button" onClick={Logout}>Logout</button> : <Link to="/login"><button className="p-3 px-4 nav-button">Login</button></Link>}
             </div>
         </nav>
     </div>

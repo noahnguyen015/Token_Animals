@@ -1,0 +1,21 @@
+nav{
+    width: 1536px;
+    border: solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 1px;
+}
+
+.nav-button{
+    background-color: #181818;
+    border: none;
+    font-size: 1.25rem;
+    margin-right: 20px;
+
+}
+
+.nav-button:hover{
+    color: #336ad1;
+    transition: 0.25s;
+}

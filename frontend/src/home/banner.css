@@ -1,11 +1,12 @@
 .banner {
     background-color: #000000;
-    height: 10vh;
-    min-width: 100%;
+    height: 100px;
+    min-width: 522.2px;
     scroll-snap-align: start;
     font-size: 1.5rem;
     font-weight: bold;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .banner-img{

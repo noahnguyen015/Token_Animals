@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Inventory
+from .models import CustomUser, Inventory, Wallet
 from django.contrib.auth import authenticate
 
 
@@ -36,3 +36,8 @@ class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
         fields = ["item_name", "tier"]
+
+class WalletSerializer(serializers.ModelSerializer):
+    class MEta:
+        model = Wallet
+        fields = ["balance"]

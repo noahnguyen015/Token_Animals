@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './banner.css'
+
+import common_bear from '../assets/bear_bank/common_bear.JPG'
+import common_goose from '../assets/geese_bank/common_goose.JPG'
 import bear_banner from '../assets/icon_bank/bear_banner.png' 
 import goose_banner from '../assets/icon_bank/goose_banner.png' 
 
@@ -13,6 +16,7 @@ function scroll(direction) {
 function Banner({currentCollectionPtr, setCollectionPtr}){
 
     const bannerRef = useRef(null);
+    const [HoverBanner, setHover] = useState(false);
 
     const collections = ["set1", "set2", "set3"];
 
@@ -47,7 +51,10 @@ function Banner({currentCollectionPtr, setCollectionPtr}){
                 <div className="row d-flex align-items-center justify-content-center">
                     <div className="col-1 scroll-button" onClick={() => scroll(-1)}>&lt;</div>
                     <div className="col-10 d-flex banner-container p-0" ref={bannerRef}>
-                        <div className="banner d-flex justify-content-center align-items-center">Bear Collection <img className="banner-img ms-3" src={bear_banner}/></div>
+                        <div className="banner d-flex justify-content-center align-items-center">
+                            Bear Collection
+                            <img className="banner-img ms-3" src={bear_banner}/>
+                        </div>
                         <div className="banner d-flex justify-content-center align-items-center">Goose Collection<img className="banner-img" src={goose_banner}/></div>
                     </div>
                     <div className="col-1 scroll-button" onClick={() => scroll(1)}>&gt;</div>

@@ -36,7 +36,7 @@ function Count_Inventory(inventory, choice){
     const set2Counter  = {"White Goose": {count: 0, image: common_goose}, 
                             "Tie Goose": {count: 0, image: tie_goose}, "Hat Goose": {count: 0, image: hat_goose}, 
                             "Fisher Goose": {count: 0, image: fisher_goose}, "Chef Goose": {count: 0, image: chef_goose}, 
-                            "viking_goose": {count: 0, image: viking_goose}, "Pilot Goose": {count: 0, image: pilot_goose}, 
+                            "Viking Goose": {count: 0, image: viking_goose}, "Pilot Goose": {count: 0, image: pilot_goose}, 
                             "Samurai Goose": {count: 0, image: samurai_goose},};
 
     let inventoryCounter = {};
@@ -73,9 +73,9 @@ function Choose_Collection({inventory}){
         <div className="row">
             <div className="col-3">
                 <h3>Collection</h3>
-                <button className="w-100 h-25 collection-button" onClick={() => setChoice("set1")}><h4>Bear Collection <img className="banner-img ms-3" src={bear_banner}/></h4></button>
-                <button className="w-100 h-25 collection-button" onClick={() => setChoice("set2")}><h4>Goose Collection <img className="banner-img ms-3" src={goose_banner}/></h4></button>
-                <button className="w-100 h-25 collection-button"><h4>Coming Soon...</h4></button>
+                <button className="collection-button" onClick={() => setChoice("set1")}><h4>Bear Collection <img className="banner-img ms-3" src={bear_banner}/></h4></button>
+                <button className="collection-button" onClick={() => setChoice("set2")}><h4>Goose Collection <img className="banner-img ms-3" src={goose_banner}/></h4></button>
+                <button className="collection-button"><h4>Coming Soon...</h4></button>
             </div>
             <div className="col-6 d-flex align-items-start collection-book flex-wrap">
                 {inventory? <Collection choice={choice} inventory_count={inventory_count}/>: <h3>Loading...</h3>}
@@ -120,7 +120,7 @@ export function Inventory() {
 
     return (
     <>
-        <h2>GAMBLING WEBSITE WITHOUT A NAME</h2>
+        <h2>TOKEN ANIMALS</h2>
         <NavBar/>
         <div>
         {inventory? <Choose_Collection inventory={inventory}/>: <h3>Loading...</h3>}

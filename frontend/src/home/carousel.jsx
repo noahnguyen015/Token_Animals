@@ -258,7 +258,7 @@ export function Carousel({options}){
 
         //go through 1 full cycle + half + 2 + index
         const numSlotsPassed = 5+0.5+2+index;
-        const slotInterval = 1500/numSlotsPassed;
+        const slotInterval = 1600/numSlotsPassed;
 
         //clear the last timeout to set a new one
         //removes triggering many rerenders, clear the pending timeouts
@@ -269,16 +269,21 @@ export function Carousel({options}){
         if(setIntervalRef.current){
             clearInterval(setIntervalRef.current);
         }
-            
 
         let tickCount = 0;
-        setIntervalRef.current = setInterval (() => {
-                                    tick.currentTime = 0; 
-                                    tick.play();
-                                    tickCount++;
 
-                                    if(tickCount >= numSlotsPassed)
+        setIntervalRef.current = setInterval (() => {
+                                    console.log("it went in here");
+                                    if(tickCount < numSlotsPassed){
+                                        tick.pause = 0; 
+                                        tick.currentTime = 0; 
+                                        tick.play();
+                                        tickCount++;
+                                    }
+
+                                    if(tickCount > numSlotsPassed){
                                         clearInterval(setIntervalRef.current);
+                                    }
                                   }, slotInterval);
         
 
@@ -369,7 +374,7 @@ export function Carousel({options}){
                     </div>    
                 </div>
             </div>
-            {isLoggedIn? <button className="px-5 my-3" onClick={() =>{spin(); setnumSpins(prev => prev+1)}} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3">Login to Spin!</button></Link>}
+            {isLoggedIn? <button className="px-5 spin-button" onClick={() =>{spin(); setnumSpins(prev => prev+1)}} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3 spin-button">Login to Spin!</button></Link>}
             {Finished? <ShowResult/>: <></>}
         </div>
     </>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Inventory
+from .models import Inventory, Wallet
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import RegisterSerializer, LoginSerializer, InventorySerializer
+from .serializers import RegisterSerializer, LoginSerializer, InventorySerializer, WalletSerializer
 
 import json
 
@@ -86,6 +86,34 @@ class InventoryView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Item added to Inventory", "data": serializer.data}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class WalletView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        
+        inventory = Wallet.objects.filter(user=request.user).order_by("id")
+
+        #convert JSON -> serializer
+        serializer = WalletSerializer(inventory, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        print(request.data)
+
+        wallet_data = request.data
+
+        wallet = Wallet.objects.create(user=request.user)
+
+        serializer = WalletSerializer(wallet, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Balance Changed", "value": serializer.data}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
