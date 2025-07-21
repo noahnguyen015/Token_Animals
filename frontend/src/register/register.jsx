@@ -9,6 +9,7 @@ function Register() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({username: '', password: ''});
     const [message, setMessage] = useState();
+    const [ShowPassword, setShowPassword] = useState(false);
 
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,7 +49,10 @@ function Register() {
                     <h2 className="my-5">REGISTRATION</h2>
                     <form onSubmit={handleSubmit}>
                         <input className="mb-4 formfield" name="username" placeholder="Username" onChange={handleChange} required></input><br/>
-                        <input className="mb-4 formfield" name="password" placeholder="Password" onChange={handleChange} required></input><br/>
+                        <input type={ShowPassword? "text": "password"} className="mb-4 formfield" name="password" placeholder="Password" onChange={handleChange} required></input><br/>
+                        <label className="d-flex align-items-center justify-content-center">Show Password: 
+                            <input type="checkbox" className="checkbox ms-3" checked={ShowPassword} onChange={() => setShowPassword(!ShowPassword)}/>
+                        </label>
                         <button className="submit-button"type="submit">Register</button>
                     </form>
                     <p><Link to ="/login">Login Page</Link></p>

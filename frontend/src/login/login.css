@@ -45,3 +45,12 @@
     background-color: #336ad1;
     font-size: 1.25rem;
 }
+
+label {
+    font-size: 1.25rem;
+}
+
+.checkbox {
+    height: 25px;
+    width: 25px;
+}
