@@ -24,6 +24,8 @@ import samurai_goose from '../assets/geese_bank/samurai_goose.JPG'
 import bear_banner from '../assets/icon_bank/bear_banner.png' 
 import goose_banner from '../assets/icon_bank/goose_banner.png' 
 
+import { GetWallet, UpdateWallet } from '../wallet/wallet'
+
 import './inventory.css'
 
 function Count_Inventory(inventory, choice){
@@ -110,12 +112,17 @@ function Collection({choice, inventory_count}){
 export function Inventory() {
 
     const [inventory, SetInventory] = useState(null);
+    const [Wallet, setWallet] = useState(null);
 
     useEffect(() =>
     {
-        async function callItems(){
+        const callItems = async () => {
             const backendItems = await getItems();
             SetInventory(backendItems);
+
+            const wallet = await GetWallet();
+            setWallet(wallet["balance"]);
+
         }
         callItems();
     },[])
@@ -123,7 +130,7 @@ export function Inventory() {
     return (
     <>
         <Title/>
-        <NavBar/>
+        <NavBar Wallet={Wallet} setWallet={setWallet}/>
         <div>
         {inventory? <Choose_Collection inventory={inventory}/>: <h3>Loading...</h3>}
         </div>

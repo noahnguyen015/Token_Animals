@@ -71,3 +71,8 @@ a:hover {
 p {
     font-size: 1.25rem;
 }
+
+.ticket-button {
+    width:30px;
+    height:30px;
+}

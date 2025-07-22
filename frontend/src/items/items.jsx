@@ -27,8 +27,6 @@ export async function refreshLoginToken() {
 
 export async function postItems(new_item){
 
-    console.log(new_item);
-
     let accesstoken = localStorage.getItem("access");
     const refreshtoken = localStorage.getItem("refresh");
 

@@ -11,6 +11,7 @@ import princess_bear from '../assets/bear_bank/princess_bear.JPG'
 import sleepy_bear from '../assets/bear_bank/sleepy_bear.JPG'
 import boba_bear from '../assets/bear_bank/boba_bear.JPG'
 import {postItems, getItems} from '../items/items'
+import { UpdateWallet } from '../wallet/wallet';
 
 import common_goose from '../assets/geese_bank/common_goose.JPG'
 import tie_goose from '../assets/geese_bank/tie_goose.JPG'
@@ -21,8 +22,9 @@ import viking_goose from '../assets/geese_bank/viking_goose.JPG'
 import pilot_goose from '../assets/geese_bank/pilot_goose.JPG'
 import samurai_goose from '../assets/geese_bank/samurai_goose.JPG'
 
+import tickets from '../assets/flamingo_ticket.png'
 
-export function Carousel({options}){
+export function Carousel({options, Wallet, setWallet}){
 
     const bears = {whites: [{card: common_bear, name: "White Bear"}], 
                    blues: [{card: tie_bear, name: "Tie Bear"},{card: glasses_bear, name: "Glasses Bear"}],
@@ -163,6 +165,7 @@ export function Carousel({options}){
     const [Result, setResult] = useState(null);
     const [SlotSheet, setSlotSheet] = useState([]);
     const [numSpins, setnumSpins] = useState(0);
+    const [hasFunds, sethasFunds] = useState(null);
     const width = 170;
 
     const spin = () => {
@@ -210,7 +213,7 @@ export function Carousel({options}){
 
         const slot = slotRef.current;
         const tick = tickRef.current;
-        const totalOptions = options.length;
+        const totalOptions = 5;
         let offset = (totalOptions * width);
         const realIndex = 25+index;
 
@@ -273,7 +276,6 @@ export function Carousel({options}){
         let tickCount = 0;
 
         setIntervalRef.current = setInterval (() => {
-                                    console.log("it went in here");
                                     if(tickCount < numSlotsPassed){
                                         tick.pause = 0; 
                                         tick.currentTime = 0; 
@@ -336,6 +338,12 @@ export function Carousel({options}){
         //set it to new set
         setSlotSheet(displaynew);
 
+        if(Wallet >= 100)
+        {
+            sethasFunds(true);
+        }else
+            sethasFunds(false);
+
         //remove winning message
         setFinished(false);
        }
@@ -351,6 +359,12 @@ export function Carousel({options}){
         //set it to new set
         setSlotSheet(displaynew);
 
+        if(Wallet >= 100)
+        {
+            sethasFunds(true);
+        }else
+            sethasFunds(false);
+
         //remove winning message
         setFinished(false);
        }
@@ -360,6 +374,33 @@ export function Carousel({options}){
 
     },[currentCollectionPtr]);
 
+    function handleWallet(cost) {
+
+        if(Wallet < cost) {
+            sethasFunds(false);
+        }
+        else if(Wallet === cost){
+            sethasFunds(false);
+            setWallet(prev => 
+            {
+                console.log(prev); 
+                return prev-2000
+            })
+        }
+        else {
+            sethasFunds(true);
+            setWallet(prev => 
+            {
+                console.log(prev); 
+                return prev-2000
+            })
+        }
+    }
+
+    /*FIX
+    Find a way to update the value on the navbar component with the carousel component
+    Make sure that the carousel and the navbar have access to the current value from the database and save it locally
+    */
     return (
     <>
         <Banner currentCollectionPtr={currentCollectionPtr} setCollectionPtr={setCollectionPtr}/>
@@ -370,12 +411,13 @@ export function Carousel({options}){
                     <div className="d-flex" ref={slotboxRef}> 
                     {SlotSheet.map((option, j) => (
                         <div className="option" key={j}><img className="img-fluid" src={option["animal"]["card"]}/></div>
-                    ))}  
+                    ))}
                     </div>    
                 </div>
             </div>
-            {isLoggedIn? <button className="px-5 spin-button" onClick={() =>{spin(); setnumSpins(prev => prev+1)}} disabled={isSpinning}>Spin</button>: <Link to="/login"><button className="px-5 my-3 spin-button">Login to Spin!</button></Link>}
-            {Finished? <ShowResult/>: <></>}
+            {isLoggedIn? <button className="px-5 spin-button" onClick={() => { spin(); setnumSpins(prev => prev+1); handleWallet(2000)} } disabled={isSpinning || !hasFunds}>
+                Spin (100<img className="ticket-button" src={tickets}/>)
+            </button>: <Link to="/login"><button className="px-5 my-3 spin-button">Login to Spin!</button></Link>}{Finished? <ShowResult/>: <></>}
         </div>
     </>
     )

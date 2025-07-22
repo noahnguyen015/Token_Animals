@@ -1,16 +1,18 @@
-import {refreshLoginToken} from '../items/items'
+import { refreshLoginToken } from '../items/items'
 
-export async function UpdateWallet(updatedBalance){
+export async function UpdateWallet({updatedBalance}){
+
+    console.log(updatedBalance);
 
     let accesstoken = localStorage.getItem("access");
 
     const response = await fetch("http://localhost:8000/api/wallet/",
     {
         method: "PATCH",
-        body : JSON.stringify({balance: updatedBalance}),
-
         headers: {"Content-Type": "application/json",
-                  "Authorization": `Bearer ${accesstoken}`,},
+                  "Authorization": `Bearer ${accesstoken}`,
+                },
+        body : JSON.stringify({balance: updatedBalance}),
     });
 
     if(response.status === 401) {
@@ -21,10 +23,9 @@ export async function UpdateWallet(updatedBalance){
             const retry_response = await fetch("http://localhost:8000/api/wallet/",
             {
                 method: "PATCH",
-                body : JSON.stringify({balance: updatedBalance}),
-
                 headers: {"Content-Type": "application/json",
                         "Authorization": `Bearer ${accesstoken}`,},
+                body : JSON.stringify({balance: updatedBalance}),
             });
 
             const retry_reply = await retry_response.json();
