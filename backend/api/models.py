@@ -52,7 +52,7 @@ class Inventory(models.Model):
 class Wallet(models.Model):
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="wallet")
-    balance = models.IntegerField()
+    balance = models.IntegerField(default=2000)
 
     def __str__(self):
         return f"{self.user} and balance: {self.balance}"

@@ -38,6 +38,6 @@ class InventorySerializer(serializers.ModelSerializer):
         fields = ["item_name", "tier"]
 
 class WalletSerializer(serializers.ModelSerializer):
-    class MEta:
+    class Meta:
         model = Wallet
         fields = ["balance"]

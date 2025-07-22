@@ -70,6 +70,7 @@ function Choose_Collection({inventory}){
 
     return (
     <>
+        <br/>
         <h3>Inventory</h3>
         <div className="row">
             <div className="col-3">

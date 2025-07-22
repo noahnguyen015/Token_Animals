@@ -1,4 +1,6 @@
-async function refreshLoginToken() {
+
+
+export async function refreshLoginToken() {
     const refreshtoken = localStorage.getItem('refresh');
 
     if (!refreshtoken) {

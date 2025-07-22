@@ -6,6 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.shortcuts import get_object_or_404
+
 
 from .serializers import RegisterSerializer, LoginSerializer, InventorySerializer, WalletSerializer
 
@@ -95,28 +97,29 @@ class WalletView(APIView):
 
     def get(self, request):
         
-        inventory = Wallet.objects.filter(user=request.user).order_by("id")
+        wallet = get_object_or_404(Wallet, user=request.user)
 
         #convert JSON -> serializer
-        serializer = WalletSerializer(inventory, many=True)
+        serializer = WalletSerializer(wallet)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def post(self, request):
-        print(request.data)
+    def patch(self, request):
+        #expecting only 1 object
+        #HTTP 404 if not found, 
+        wallet = get_object_or_404(Wallet, user=request.user)
+        
+        #partial updates the fields partially not all fields need to be populated
+        serializer = WalletSerializer(wallet, data=request.data, partial=True)
 
-        wallet_data = request.data
-
-        wallet = Wallet.objects.create(user=request.user)
-
-        serializer = WalletSerializer(wallet, data=request.data)
-
+        #makes sure the fields are correct types
         if serializer.is_valid():
+            #saves and updates dated for Wallet model
             serializer.save()
-            return Response({"message": "Balance Changed", "value": serializer.data}, status=status.HTTP_200_OK)
+            return Response({"message": "Balance Updated", "balance": serializer.data}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
 
 
 
