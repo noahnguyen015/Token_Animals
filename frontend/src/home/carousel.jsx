@@ -384,7 +384,8 @@ export function Carousel({options, Wallet, setWallet}){
             setWallet(prev => 
             {
                 console.log(prev); 
-                return prev-2000
+                UpdateWallet(prev-100);
+                return prev-100
             })
         }
         else {
@@ -392,7 +393,8 @@ export function Carousel({options, Wallet, setWallet}){
             setWallet(prev => 
             {
                 console.log(prev); 
-                return prev-2000
+                UpdateWallet(prev-100);
+                return prev-100
             })
         }
     }
@@ -415,8 +417,8 @@ export function Carousel({options, Wallet, setWallet}){
                     </div>    
                 </div>
             </div>
-            {isLoggedIn? <button className="px-5 spin-button" onClick={() => { spin(); setnumSpins(prev => prev+1); handleWallet(2000)} } disabled={isSpinning || !hasFunds}>
-                Spin (100<img className="ticket-button" src={tickets}/>)
+            {isLoggedIn? <button className="px-5 spin-button" onClick={() => { spin(); setnumSpins(prev => prev+1); handleWallet(100)} } disabled={isSpinning || !hasFunds}>
+                Spin (100{(isSpinning || !hasFunds)? <img className="ticket-button2" src={tickets}/>: <img className="ticket-button" src={tickets}/>})
             </button>: <Link to="/login"><button className="px-5 my-3 spin-button">Login to Spin!</button></Link>}{Finished? <ShowResult/>: <></>}
         </div>
     </>

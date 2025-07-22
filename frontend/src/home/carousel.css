@@ -75,4 +75,13 @@ p {
 .ticket-button {
     width:30px;
     height:30px;
+
 }
+
+.ticket-button2 {
+    width:30px;
+    height:30px;
+    opacity: 0.5;
+}
+
+

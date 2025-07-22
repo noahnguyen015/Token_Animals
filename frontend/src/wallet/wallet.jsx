@@ -1,6 +1,6 @@
 import { refreshLoginToken } from '../items/items'
 
-export async function UpdateWallet({updatedBalance}){
+export async function UpdateWallet(updatedBalance){
 
     console.log(updatedBalance);
 
