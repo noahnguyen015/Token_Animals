@@ -5,6 +5,8 @@
 
 An online web-based collection game to simulate the exchange and simulation of gaming slots.
 
+Created Using React, Javascript, Django, PostgreSQL
+
 ### How To Play
 
 - Register On the Account
